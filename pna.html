@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Study of PNA | MUN Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --bg: #f4fbf7;
+      --bg-2: #e7f6ed;
+      --card: rgba(255, 255, 255, 0.80);
+      --card-strong: rgba(255, 255, 255, 0.92);
+      --stroke: rgba(12, 56, 39, 0.10);
+      --text: #0e1d18;
+      --muted: rgba(14, 29, 24, 0.72);
+      --muted-2: rgba(14, 29, 24, 0.56);
+      --green: #1d7f57;
+      --green-2: #2dbd7f;
+      --white: #ffffff;
+      --gold: #c9a227;
+      --shadow: 0 24px 80px rgba(16, 43, 29, 0.14);
+      --radius: 28px;
+      --radius-sm: 18px;
+      --max: 1220px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 18% 18%, rgba(45, 189, 127, 0.22), transparent 22%),
+        radial-gradient(circle at 84% 14%, rgba(201, 162, 39, 0.12), transparent 18%),
+        radial-gradient(circle at 82% 76%, rgba(29, 127, 87, 0.12), transparent 24%),
+        linear-gradient(135deg, #f8fdf9 0%, #eef9f1 48%, #edf8f2 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(120deg, rgba(29,127,87,0.06) 0%, transparent 35%, transparent 65%, rgba(201,162,39,0.04) 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+    }
+
+    .container {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+      background: rgba(255, 255, 255, 0.72);
+      border-bottom: 1px solid rgba(12, 56, 39, 0.08);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 16px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .brand-badge {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(145deg, rgba(45,189,127,0.18), rgba(255,255,255,0.92));
+      border: 1px solid rgba(12,56,39,0.10);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.30);
+    }
+
+    .brand-badge svg { width: 24px; height: 24px; color: var(--green); }
+
+    .nav-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      padding: 10px 14px;
+      border-radius: 999px;
+      transition: 0.25s ease;
+      border: 1px solid transparent;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+      background: rgba(45,189,127,0.10);
+      border-color: rgba(45,189,127,0.16);
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      position: relative;
+      padding: 74px 0 40px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(12,56,39,0.08);
+      color: var(--muted);
+      font-size: 0.92rem;
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow i { color: var(--gold); }
+
+    h1 {
+      margin: 18px 0 16px;
+      font-size: clamp(2.6rem, 5vw, 5.3rem);
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+      max-width: 11ch;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 64ch;
+      color: var(--muted);
+      font-size: 1.04rem;
+      line-height: 1.8;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 20px;
+      border-radius: 16px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: 0.25s ease;
+      border: 1px solid transparent;
+      box-shadow: var(--shadow);
+    }
+
+    .btn.primary {
+      color: #08301f;
+      background: linear-gradient(135deg, #ffffff 0%, #effaf2 48%, #baf0d0 100%);
+    }
+
+    .btn.secondary {
+      color: var(--text);
+      background: rgba(255,255,255,0.74);
+      border-color: rgba(12,56,39,0.10);
+    }
+
+    .btn:hover { transform: translateY(-3px) scale(1.01); }
+
+    .hero-card {
+      position: relative;
+      min-height: 520px;
+      border-radius: 34px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.72)),
+        linear-gradient(145deg, rgba(232, 250, 239, 0.98), rgba(214, 245, 226, 0.92));
+      border: 1px solid rgba(12,56,39,0.10);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transform-style: preserve-3d;
+      perspective: 1100px;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      width: 480px;
+      height: 480px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(45,189,127,0.24) 0%, rgba(45,189,127,0.10) 35%, transparent 70%);
+      top: -110px;
+      right: -140px;
+      filter: blur(8px);
+      animation: floatGlow 8s ease-in-out infinite;
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.34) 25%, transparent 50%, rgba(255,255,255,0.22) 75%, transparent 100%);
+      pointer-events: none;
+    }
+
+    .card-content {
+      position: relative;
+      z-index: 2;
+      padding: 28px;
+      height: 100%;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 22px;
+    }
+
+    .mini-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.84);
+      border: 1px solid rgba(12,56,39,0.08);
+    }
+
+    .status .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #43c58a;
+      box-shadow: 0 0 0 6px rgba(67,197,138,0.12);
+    }
+
+    .assembly {
+      position: relative;
+      margin-top: 8px;
+      display: grid;
+      place-items: center;
+      min-height: 340px;
+      transform-style: preserve-3d;
+    }
+
+    .dome {
+      position: absolute;
+      width: min(82%, 400px);
+      aspect-ratio: 1/1;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 32%, rgba(255,255,255,0.95), rgba(255,255,255,0.40) 30%, transparent 31%),
+        radial-gradient(circle at 50% 55%, rgba(45,189,127,0.55), rgba(29,127,87,0.88) 58%, rgba(13,29,24,0.94) 68%);
+      box-shadow: inset 0 -18px 45px rgba(0,0,0,0.10), 0 25px 70px rgba(16,43,29,0.10);
+      transform: translateZ(26px);
+      animation: breathe 6s ease-in-out infinite;
+    }
+
+    .dome::before,
+    .dome::after {
+      content: "";
+      position: absolute;
+      inset: 16% 18% 28% 18%;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.16);
+    }
+
+    .dome::after {
+      inset: 22% 26% 36% 26%;
+      border-color: rgba(255,255,255,0.10);
+    }
+
+    .seats {
+      position: absolute;
+      inset: 18% 12% 16%;
+      border-radius: 999px 999px 36px 36px;
+      background:
+        radial-gradient(circle at 50% 85%, rgba(255,255,255,0.56), transparent 38%),
+        linear-gradient(180deg, rgba(255,255,255,0.58), rgba(255,255,255,0.22));
+      border: 1px solid rgba(12,56,39,0.08);
+      transform: rotateX(64deg) translateZ(32px);
+      box-shadow: inset 0 2px 0 rgba(255,255,255,0.16);
+    }
+
+    .seats::before,
+    .seats::after {
+      content: "";
+      position: absolute;
+      inset: 11% 10%;
+      border-radius: inherit;
+      border: 1px dashed rgba(12,56,39,0.12);
+    }
+
+    .podium {
+      position: absolute;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%) translateZ(42px);
+      width: 150px;
+      height: 92px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.58));
+      border: 1px solid rgba(12,56,39,0.10);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 18px 40px rgba(16,43,29,0.10);
+    }
+
+    .podium::before {
+      content: "Pakistan National Assembly";
+      text-align: center;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.35;
+      width: 110px;
+    }
+
+    .orbit {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(12,56,39,0.10);
+      animation: spin 18s linear infinite;
+    }
+
+    .orbit.one { width: 440px; height: 440px; }
+    .orbit.two { width: 300px; height: 300px; animation-duration: 14s; }
+    .orbit.three { width: 180px; height: 180px; animation-duration: 10s; }
+
+    .stat-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .stat {
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.86);
+      border: 1px solid rgba(12,56,39,0.08);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.2rem;
+      margin-bottom: 4px;
+    }
+
+    .stat span { color: var(--muted-2); font-size: 0.86rem; }
+
+    section {
+      padding: 26px 0 16px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: end;
+      margin-bottom: 18px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(1.6rem, 3vw, 2.6rem);
+      letter-spacing: -0.03em;
+    }
+
+    .section-head p {
+      margin: 0;
+      max-width: 66ch;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .glass {
+      position: relative;
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,0.90), rgba(255,255,255,0.70));
+      border: 1px solid var(--stroke);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transform-style: preserve-3d;
+      backdrop-filter: blur(18px);
+    }
+
+    .glass .pad { padding: 22px; }
+
+    .feature {
+      min-height: 210px;
+      transition: 0.3s ease;
+    }
+
+    .feature:hover,
+    .tilt:hover {
+      transform: translateY(-10px) rotateX(4deg) rotateY(-4deg) scale(1.01);
+      border-color: rgba(45,189,127,0.30);
+      box-shadow: 0 34px 100px rgba(16,43,29,0.18);
+    }
+
+    .icon-box {
+      width: 50px;
+      height: 50px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 14px;
+      background: linear-gradient(145deg, rgba(45,189,127,0.20), rgba(255,255,255,0.88));
+      border: 1px solid rgba(12,56,39,0.10);
+    }
+
+    .icon-box svg { width: 24px; height: 24px; color: var(--green); }
+
+    .feature h3,
+    .step h3,
+    .compare h3,
+    .topic h3 {
+      margin: 0 0 8px;
+      font-size: 1.12rem;
+    }
+
+    .muted {
+      color: var(--muted);
+      line-height: 1.75;
+      margin: 0;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .pill {
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.80);
+      border: 1px solid rgba(12,56,39,0.08);
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .timeline {
+      position: relative;
+      padding-left: 30px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 12px;
+      top: 10px;
+      bottom: 10px;
+      width: 2px;
+      background: linear-gradient(180deg, rgba(45,189,127,0.95), rgba(12,56,39,0.10));
+    }
+
+    .step {
+      position: relative;
+      margin-bottom: 18px;
+    }
+
+    .step::before {
+      content: "";
+      position: absolute;
+      left: -30px;
+      top: 7px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #43c58a, #ffffff);
+      box-shadow: 0 0 0 5px rgba(67,197,138,0.12);
+    }
+
+    .step .glass { background: rgba(255,255,255,0.78); }
+
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .compare .vs {
+      align-self: center;
+      width: 66px;
+      height: 66px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(201,162,39,0.18), rgba(45,189,127,0.18));
+      border: 1px solid rgba(12,56,39,0.10);
+      font-weight: 900;
+      color: var(--text);
+      letter-spacing: 0.12em;
+    }
+
+    .compare .pane {
+      padding: 22px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.80);
+      border: 1px solid rgba(12,56,39,0.08);
+      box-shadow: var(--shadow);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.80);
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 12px;
+      border: 1px solid rgba(12,56,39,0.08);
+    }
+
+    .tag i { color: var(--green); }
+
+    .check-list {
+      list-style: none;
+      padding: 0;
+      margin: 16px 0 0;
+      display: grid;
+      gap: 12px;
+    }
+
+    .check-list li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .check-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 9px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #43c58a, #ffffff);
+      box-shadow: 0 0 0 4px rgba(67,197,138,0.11);
+    }
+
+    .accordion {
+      display: grid;
+      gap: 12px;
+    }
+
+    details {
+      border-radius: 22px;
+      background: rgba(255,255,255,0.80);
+      border: 1px solid rgba(12,56,39,0.08);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 18px 20px;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+
+    details .content {
+      padding: 0 20px 18px;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .a-z {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .topic {
+      padding: 18px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.80);
+      border: 1px solid rgba(12,56,39,0.08);
+    }
+
+    .topic .letter {
+      display: inline-grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(45,189,127,0.18), rgba(255,255,255,0.86));
+      border: 1px solid rgba(12,56,39,0.10);
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .footer {
+      padding: 40px 0 56px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .footer .glass {
+      padding: 24px;
+      border-radius: 28px;
+    }
+
+    .scroll-top {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 1px solid rgba(12,56,39,0.10);
+      background: rgba(255,255,255,0.84);
+      backdrop-filter: blur(12px);
+      display: grid;
+      place-items: center;
+      color: var(--text);
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.25s ease;
+      z-index: 60;
+    }
+
+    .scroll-top.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .floating-badges {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .float-badge {
+      position: absolute;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.80);
+      border: 1px solid rgba(12,56,39,0.08);
+      color: var(--muted);
+      font-size: 0.85rem;
+      backdrop-filter: blur(10px);
+      animation: drift 10s ease-in-out infinite, shimmer 5s ease-in-out infinite;
+    }
+
+    .float-badge:nth-child(1) { top: 12%; left: 3%; }
+    .float-badge:nth-child(2) { top: 18%; right: 6%; animation-duration: 12s, 6s; }
+    .float-badge:nth-child(3) { bottom: 18%; left: 8%; animation-duration: 13s, 5.5s; }
+    .float-badge:nth-child(4) { bottom: 14%; right: 10%; animation-duration: 11s, 6.5s; }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px) scale(0.985);
+      transition: 0.8s ease;
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes floatGlow {
+      0%, 100% { transform: translate3d(0,0,0) scale(1); }
+      50% { transform: translate3d(-14px, 18px, 0) scale(1.06); }
+    }
+
+    @keyframes drift {
+      0%, 100% { transform: translateY(0px) translateX(0px); }
+      50% { transform: translateY(-14px) translateX(12px); }
+    }
+
+    @keyframes shimmer {
+      0%, 100% { box-shadow: 0 14px 40px rgba(16,43,29,0.08); }
+      50% { box-shadow: 0 18px 48px rgba(16,43,29,0.16); }
+    }
+
+    @keyframes breathe {
+      0%, 100% { transform: translateZ(26px) scale(1); }
+      50% { transform: translateZ(26px) scale(1.02); }
+    }
+
+    @media (max-width: 1060px) {
+      .hero-grid,
+      .grid-2,
+      .grid-3,
+      .grid-4,
+      .compare,
+      .a-z {
+        grid-template-columns: 1fr;
+      }
+      .compare .vs { justify-self: center; }
+      h1 { max-width: 14ch; }
+    }
+
+    @media (max-width: 720px) {
+      .nav-inner { flex-direction: column; align-items: flex-start; }
+      .hero { padding-top: 48px; }
+      .card-content { padding: 18px; }
+      .stat-strip { grid-template-columns: 1fr; }
+      .section-head { flex-direction: column; align-items: flex-start; }
+      .hero-actions { flex-direction: column; }
+      .btn { width: 100%; justify-content: center; }
+      .hero-card { min-height: 470px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="nav">
+      <div class="container nav-inner">
+        <a class="brand" href="#top">
+          <span class="brand-badge"><i data-lucide="landmark"></i></span>
+          <span>Study of PNA</span>
+        </a>
+        <div class="nav-links">
+          <a href="#intro">Intro</a>
+          <a href="#structure">Structure</a>
+          <a href="#mun">MUN Guide</a>
+          <a href="#rules">Rules</a>
+          <a href="#procedure">Procedure</a>
+          <a href="#az">A to Z</a>
+        </div>
+      </div>
+    </nav>
+
+    <main id="top" class="container hero">
+      <div class="floating-badges">
+        <div class="float-badge">Pakistan Gradient</div>
+        <div class="float-badge">3D Effects</div>
+        <div class="float-badge">MUN Guide</div>
+        <div class="float-badge">PNA Procedure</div>
+      </div>
+
+      <div class="hero-grid">
+        <div class="reveal">
+          <span class="eyebrow"><i data-lucide="sparkles"></i> A premium guide to Pakistan National Assembly in MUN and real life</span>
+          <h1>Understand PNA with style, clarity, and depth.</h1>
+          <p>
+            This website is designed as a polished learning guide for the Pakistan National Assembly: how it functions in real life,
+            how it is mirrored in a Model United Nations setting, what rules shape debate, and how each side should be understood.
+            The layout uses Pakistan-inspired gradients, glassmorphism, animated depth, and modern 3D visuals.
+          </p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#intro"><i data-lucide="arrow-right"></i> Start the guide</a>
+            <a class="btn secondary" href="#mun"><i data-lucide="book-open"></i> Explore MUN flow</a>
+          </div>
+        </div>
+
+        <div class="hero-card tilt reveal">
+          <div class="card-content">
+            <div class="mini-top">
+              <div class="status"><span class="dot"></span> Live Assembly Overview</div>
+              <div>Pakistan • MUN • Procedure</div>
+            </div>
+            <div class="assembly">
+              <div class="orbit one"></div>
+              <div class="orbit two"></div>
+              <div class="orbit three"></div>
+              <div class="seats"></div>
+              <div class="dome"></div>
+              <div class="podium"></div>
+            </div>
+            <div class="stat-strip">
+              <div class="stat"><strong>Real-life PNA</strong><span>Lawmaking and oversight</span></div>
+              <div class="stat"><strong>MUN PNA</strong><span>Rules, motions, debate</span></div>
+              <div class="stat"><strong>Core goal</strong><span>Turn logic into policy</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <section id="intro">
+      <div class="container reveal">
+        <div class="section-head">
+          <div>
+            <h2>Introduction</h2>
+            <p>Begin with the basic idea behind the Pakistan National Assembly and why it matters inside and outside the committee room.</p>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="glass feature tilt">
+            <div class="pad">
+              <div class="icon-box"><i data-lucide="gavel"></i></div>
+              <h3>What is the PNA?</h3>
+              <p class="muted">The Pakistan National Assembly is the lower house of Parliament. It represents the people directly, debates national issues, makes laws, approves budgets, and holds the executive accountable.</p>
+            </div>
+          </div>
+          <div class="glass feature tilt">
+            <div class="pad">
+              <div class="icon-box"><i data-lucide="shield-check"></i></div>
+              <h3>Why it exists</h3>
+              <p class="muted">Its purpose is to convert public will into legislation, create checks on power, and provide a constitutional arena where political conflict is resolved through procedure rather than force.</p>
+            </div>
+          </div>
+          <div class="glass feature tilt">
+            <div class="pad">
+              <div class="icon-box"><i data-lucide="users"></i></div>
+              <h3>Why MUN uses it</h3>
+              <p class="muted">In MUN, a PNA committee teaches students how parliamentary debate works, how motions shape outcomes, and how strategy matters just as much as argument.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="structure">
+      <div class="container reveal">
+        <div class="section-head">
+          <div>
+            <h2>How it works in real life</h2>
+            <p>The National Assembly functions through representation, lawmaking, oversight, and internal procedure. Every rule exists to protect order and legitimacy.</p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="glass pad tilt">
+            <div class="tag"><i data-lucide="building-2"></i> Core functions</div>
+            <ul class="check-list">
+              <li>Passes ordinary laws, money bills, and constitutional changes within its legal authority.</li>
+              <li>Approves the budget and controls public spending through scrutiny and debate.</li>
+              <li>Questions ministers, demands accountability, and examines executive decisions.</li>
+              <li>Represents citizens through elected members and party strength.</li>
+            </ul>
+          </div>
+          <div class="glass pad tilt">
+            <div class="tag"><i data-lucide="scale-3d"></i> Why procedure matters</div>
+            <p class="muted">Procedure stops chaos from dominating debate. Without rules, louder voices would win over stronger arguments. With rules, every member knows when to speak, how to move a motion, when to interrupt, and how a decision is legally recognized.</p>
+            <div class="pill-row">
+              <span class="pill">Order</span>
+              <span class="pill">Legitimacy</span>
+              <span class="pill">Equality of speech</span>
+              <span class="pill">Decision-making</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="mun">
+      <div class="container reveal">
+        <div class="section-head">
+          <div>
+            <h2>How a PNA committee works in MUN</h2>
+            <p>The MUN version is a structured simulation of parliamentary politics. Delegates use motions, points, speeches, and voting to recreate legislative dynamics.</p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="glass pad tilt">
+            <h3>Debate flow</h3>
+            <div class="timeline" style="margin-top:18px;">
+              <div class="step">
+                <div class="glass pad">
+                  <h3>1. Opening and agenda</h3>
+                  <p class="muted">The chair sets the agenda and the committee recognizes the topic. Members identify the main issue and the political tone of the house.</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="glass pad">
+                  <h3>2. Speeches and positions</h3>
+                  <p class="muted">Delegates present their positions, justify policy preferences, and frame their side as the most practical and constitutional solution.</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="glass pad">
+                  <h3>3. Motion-based movement</h3>
+                  <p class="muted">Motions shift the house between moderated and unmoderated formats, caucuses, voting, and procedural changes.</p>
+                </div>
+              </div>
+              <div class="step" style="margin-bottom:0;">
+                <div class="glass pad">
+                  <h3>4. Drafting and voting</h3>
+                  <p class="muted">The committee writes and amends resolutions, then votes to determine what survives as the final policy direction.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass pad tilt">
+            <h3>What the delegate should understand</h3>
+            <ul class="check-list">
+              <li>How parliamentary power is divided between government and opposition.</li>
+              <li>How strong rhetoric must still rest on realistic mechanisms.</li>
+              <li>How one argument can be framed as a constitutional, practical, and political necessity.</li>
+              <li>How procedure can be used strategically without losing substance.</li>
+              <li>How to defend a side through impact, not just theory.</li>
+            </ul>
+            <div class="pill-row">
+              <span class="pill">Majority</span>
+              <span class="pill">Opposition</span>
+              <span class="pill">Speaker’s control</span>
+              <span class="pill">Amendments</span>
+              <span class="pill">Voting blocs</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="rules">
+      <div class="container reveal">
+        <div class="section-head">
+          <div>
+            <h2>Rules and procedure</h2>
+            <p>These are the rules that make the house functional. In debate, procedure is not decoration; it is the skeleton of the entire committee.</p>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="glass feature tilt"><div class="pad"><div class="icon-box"><i data-lucide="mic"></i></div><h3>Speaking order</h3><p class="muted">The chair controls who speaks, for how long, and under which format. Recognition is essential because it prevents disorder and protects fairness.</p></div></div>
+          <div class="glass feature tilt"><div class="pad"><div class="icon-box"><i data-lucide="flag"></i></div><h3>Motions</h3><p class="muted">Motions change the nature of the house. They can open moderated caucuses, unmoderated caucuses, introduce time limits, or move the committee to voting.</p></div></div>
+          <div class="glass feature tilt"><div class="pad"><div class="icon-box"><i data-lucide="handshake"></i></div><h3>Points and rights</h3><p class="muted">Points of information, point of order, and personal privilege keep the process responsive while maintaining discipline and relevance.</p></div></div>
+        </div>
+
+        <div style="height:18px"></div>
+
+        <div class="accordion">
+          <details open>
+            <summary>Key procedural ideas <i data-lucide="chevron-down"></i></summary>
+            <div class="content">
+              The house works best when members understand that procedure controls energy. Moderated caucus is useful for focused exchange; unmoderated caucus is useful for coalition-building and drafting; voting is the final point where argument becomes outcome.
+            </div>
+          </details>
+          <details>
+            <summary>Common committee expectations <i data-lucide="chevron-down"></i></summary>
+            <div class="content">
+              Speak with clarity, stay in character, know your bloc, respect the chair, and never treat procedure as a delay tactic alone. Strong delegates use procedure to sharpen substance.
+            </div>
+          </details>
+          <details>
+            <summary>How to win the room <i data-lucide="chevron-down"></i></summary>
+            <div class="content">
+              Win the room by combining logic, timing, and political awareness. A great PNA delegate does not only speak well; they understand what moves the house, what persuades a majority, and what looks credible in a legislative setting.
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container reveal">
+        <div class="section-head">
+          <div>
+            <h2>Real life vs MUN</h2>
+            <p>This comparison helps delegates understand what is authentic to parliamentary practice and what is adapted for simulation.</p>
+          </div>
+        </div>
+
+        <div class="compare">
+          <div class="pane tilt">
+            <div class="tag"><i data-lucide="building"></i> Real PNA</div>
+            <h3>Legislative institution</h3>
+            <p class="muted">Members are elected, policy is binding, and outcomes affect state governance, public law, and national budgets.</p>
+            <ul class="check-list">
+              <li>Binding decisions with legal consequences.</li>
+              <li>Constitutional rules and party discipline.</li>
+              <li>Budgetary and oversight powers.</li>
+            </ul>
+          </div>
+          <div class="vs">VS</div>
+          <div class="pane tilt">
+            <div class="tag"><i data-lucide="graduation-cap"></i> MUN PNA</div>
+            <h3>Educational simulation</h3>
+            <p class="muted">Delegates imitate legislative reasoning, test policy, and use procedure to practice public speaking and political strategy.</p>
+            <ul class="check-list">
+              <li>Educational outcomes instead of binding law.</li>
+              <li>Prepared motions, speeches, and caucuses.</li>
+              <li>Focus on debate quality and structure.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="procedure">
+      <div class="container reveal">
+        <div class="section-head">
+          <div>
+            <h2>From claim to result</h2>
+            <p>Use this logic when building speeches: claim, mechanism, result, and impact. That makes arguments feel complete instead of vague.</p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="glass pad tilt">
+            <h3>Argument architecture</h3>
+            <ul class="check-list">
+              <li><strong>Claim:</strong> what your side believes.</li>
+              <li><strong>Mechanism:</strong> how the claim becomes true.</li>
+              <li><strong>Result:</strong> what changes because of the mechanism.</li>
+              <li><strong>Impact:</strong> why that result matters to the state or the committee.</li>
+            </ul>
+          </div>
+          <div class="glass pad tilt">
+            <h3>Practical example</h3>
+            <p class="muted">If the claim is that stronger committee discipline improves decision-making, the mechanism is clear speaking order and motion control, the result is fewer interruptions and more productive debate, and the impact is better policy quality and a more credible house.</p>
+            <div class="pill-row">
+              <span class="pill">Claim</span>
+              <span class="pill">Mechanism</span>
+              <span class="pill">Result</span>
+              <span class="pill">Impact</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container reveal">
+        <div class="section-head">
+          <div>
+            <h2>Final takeaway</h2>
+            <p>A strong PNA delegate is not just loud; they are structured, strategic, and grounded in procedure.</p>
+          </div>
+        </div>
+
+        <div class="glass pad tilt">
+          <p class="muted" style="font-size:1.03rem;">
+            In real life, the Pakistan National Assembly transforms public representation into law and accountability. In MUN, it becomes a training ground for parliamentary thinking, where argument, motions, and discipline shape the house. Learn the rules, master the flow, and make every point count.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="glass">
+          <strong style="display:block; color:var(--text); font-size:1.05rem; margin-bottom:8px;">Study of PNA | MUN Guide</strong>
+          <span>Pakistan-inspired gradient • 3D visual design • premium academic presentation</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <button class="scroll-top" id="scrollTop" aria-label="Scroll to top"><i data-lucide="arrow-up"></i></button>
+
+  <script>
+    lucide.createIcons();
+
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('show');
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => observer.observe(el));
+
+    const scrollTopBtn = document.getElementById('scrollTop');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 500) scrollTopBtn.classList.add('show');
+      else scrollTopBtn.classList.remove('show');
+    });
+    scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    const card = document.querySelector('.hero-card');
+    if (card) {
+      const maxRotate = 8;
+      const onMove = (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width;
+        const y = (e.clientY - rect.top) / rect.height;
+        const rotateY = (x - 0.5) * maxRotate * 2;
+        const rotateX = (0.5 - y) * maxRotate * 2;
+        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`;
+      };
+      const reset = () => { card.style.transform = 'rotateX(0deg) rotateY(0deg)'; };
+      card.addEventListener('mousemove', onMove);
+      card.addEventListener('mouseleave', reset);
+    }
+  </script>
+</body>
+</html>

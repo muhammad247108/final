@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MUN Diplomacy Playbook | Tactics for Every Committee</title>
+  <style>
+    :root {
+      --bg: #030610;
+      --bg2: #071223;
+      --card: rgba(10, 18, 40, 0.74);
+      --card2: rgba(7, 12, 26, 0.93);
+      --line: rgba(121, 170, 255, 0.14);
+      --text: #eff4ff;
+      --muted: #9fb2d6;
+      --blue: #3f8cff;
+      --blue2: #79b9ff;
+      --cyan: #59e2ff;
+      --shadow: 0 26px 90px rgba(0,0,0,.46);
+      --radius: 26px;
+      --radius2: 34px;
+      --max: 1260px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 15% 12%, rgba(63,140,255,0.16), transparent 24%),
+        radial-gradient(circle at 86% 16%, rgba(89,226,255,0.10), transparent 20%),
+        radial-gradient(circle at 50% 84%, rgba(63,140,255,0.08), transparent 24%),
+        linear-gradient(180deg, #02040b, #061022 45%, #02040a 100%);
+      overflow-x: hidden;
+    }
+
+    .grid-bg {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .18;
+      background-image:
+        linear-gradient(rgba(121,170,255,.10) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(121,170,255,.10) 1px, transparent 1px);
+      background-size: 66px 66px;
+      mask-image: radial-gradient(circle at center, black 34%, transparent 100%);
+      transform: perspective(900px) rotateX(64deg) translateY(-10%);
+      transform-origin: top center;
+      animation: drift 18s linear infinite;
+    }
+
+    .orb {
+      position: fixed; border-radius: 50%; pointer-events: none; filter: blur(28px); opacity: .52; z-index: 0;
+      animation: float 14s ease-in-out infinite;
+    }
+    .orb.a { width: 260px; height: 260px; left: -60px; top: 14%; background: rgba(63,140,255,.14); }
+    .orb.b { width: 180px; height: 180px; right: 10%; top: 20%; background: rgba(89,226,255,.10); animation-delay: -5s; }
+    .orb.c { width: 320px; height: 320px; right: 16%; bottom: -110px; background: rgba(63,140,255,.10); animation-delay: -8s; }
+
+    @keyframes drift { from { background-position: 0 0, 0 0; } to { background-position: 0 66px, 66px 0; } }
+    @keyframes float { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(0,-18px,0) scale(1.03); } }
+    @keyframes reveal { from { opacity: 0; transform: translateY(26px) scale(.986); filter: blur(8px); } to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } }
+
+    .wrap { position: relative; z-index: 1; }
+    .container { width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
+
+    header {
+      position: sticky; top: 0; z-index: 20;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(180deg, rgba(3,5,13,.92), rgba(3,5,13,.56));
+      border-bottom: 1px solid rgba(121,170,255,.12);
+    }
+
+    .nav {
+      display: flex; justify-content: space-between; gap: 18px; align-items: center; padding: 18px 0;
+    }
+
+    .brand { display: flex; gap: 12px; align-items: center; }
+    .brand-mark {
+      width: 44px; height: 44px; border-radius: 15px;
+      background: linear-gradient(145deg, rgba(63,140,255,1), rgba(7,17,44,.96));
+      box-shadow: 0 0 26px rgba(63,140,255,.24), inset 0 1px 0 rgba(255,255,255,.20);
+      position: relative; transform: perspective(600px) rotateX(18deg) rotateY(-18deg);
+      flex: 0 0 auto;
+    }
+    .brand-mark::after {
+      content: ""; position: absolute; inset: 9px; border-radius: 11px; border: 1px solid rgba(255,255,255,.22);
+    }
+    .brand-title { font-weight: 900; letter-spacing: .5px; }
+    .brand-sub { color: var(--muted); font-size: .84rem; margin-top: 2px; }
+
+    .links { display: flex; gap: 10px; flex-wrap: wrap; }
+    .links a {
+      color: var(--muted); text-decoration: none; font-size: .93rem; font-weight: 700;
+      padding: 10px 14px; border-radius: 999px; border: 1px solid transparent; transition: .25s ease;
+    }
+    .links a:hover {
+      color: var(--text); background: rgba(63,140,255,.08); border-color: rgba(63,140,255,.16); transform: translateY(-1px);
+    }
+
+    .hero { padding: 88px 0 28px; }
+    .hero-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 24px; align-items: stretch; }
+    .hero-copy, .hero-side, .card, .mini, .note {
+      background: linear-gradient(180deg, rgba(15,25,51,.88), rgba(7,12,26,.94));
+      border: 1px solid rgba(121,170,255,.14); box-shadow: var(--shadow); border-radius: var(--radius2);
+    }
+
+    .hero-copy { padding: 34px; position: relative; overflow: hidden; }
+    .hero-copy::before {
+      content: ""; position: absolute; inset: 0;
+      background: radial-gradient(circle at top right, rgba(63,140,255,.18), transparent 28%);
+      pointer-events: none;
+    }
+    .kicker {
+      display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 999px;
+      background: rgba(63,140,255,.08); border: 1px solid rgba(63,140,255,.16); color: #dce8ff;
+      letter-spacing: .18em; text-transform: uppercase; font-size: .77rem; font-weight: 800;
+    }
+
+    h1 { margin: 18px 0 14px; font-size: clamp(2.7rem, 5vw, 5.2rem); line-height: .97; letter-spacing: -.05em; }
+    .gradient-text {
+      background: linear-gradient(90deg, #fff, #9abfff 38%, #59e2ff 82%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .hero p { color: var(--muted); line-height: 1.86; font-size: 1.03rem; max-width: 74ch; margin: 0 0 16px; }
+
+    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
+      padding: 14px 20px; border-radius: 999px; font-weight: 800; transition: .25s ease;
+      border: 1px solid transparent;
+    }
+    .btn.primary { background: linear-gradient(135deg, #3f8cff, #7ab8ff); color: #04101f; box-shadow: 0 16px 40px rgba(63,140,255,.26); }
+    .btn.secondary { color: var(--text); background: rgba(255,255,255,.04); border-color: rgba(121,170,255,.16); }
+    .btn:hover { transform: translateY(-2px) scale(1.01); }
+
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 24px; }
+    .stat {
+      padding: 18px; border-radius: 22px; background: rgba(255,255,255,.03);
+      border: 1px solid rgba(121,170,255,.12); transform: perspective(800px) rotateX(8deg);
+    }
+    .stat strong { display: block; font-size: 1.42rem; margin-bottom: 6px; }
+    .stat span { color: var(--muted); line-height: 1.55; font-size: .95rem; }
+
+    .hero-side { padding: 26px; transform-style: preserve-3d; transform: perspective(1000px) rotateY(-7deg) rotateX(2deg); position: relative; overflow: hidden; }
+    .hero-side::after {
+      content: ""; position: absolute; inset: auto -70px -90px auto; width: 230px; height: 230px; border-radius: 50%;
+      background: rgba(89,226,255,.11); filter: blur(10px);
+    }
+    .side-head { display: flex; justify-content: space-between; gap: 10px; align-items: center; margin-bottom: 16px; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px;
+      background: rgba(63,140,255,.08); border: 1px solid rgba(63,140,255,.16); color: #dce8ff; font-size: .85rem;
+      white-space: nowrap;
+    }
+    .stack { display: grid; gap: 12px; }
+    .stack-item {
+      display: flex; gap: 12px; align-items: flex-start; padding: 14px 15px; border-radius: 18px;
+      background: rgba(255,255,255,.03); border: 1px solid rgba(121,170,255,.10); color: var(--muted);
+      line-height: 1.6;
+    }
+    .dot { width: 10px; height: 10px; margin-top: 6px; border-radius: 50%; background: linear-gradient(135deg, #3f8cff, #59e2ff); box-shadow: 0 0 20px rgba(89,226,255,.35); flex: 0 0 auto; }
+    .stack-item b { color: var(--text); }
+
+    section { padding: 18px 0 32px; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 18px; margin-bottom: 18px; }
+    .section-head h2 { margin: 0; font-size: clamp(1.55rem, 2.8vw, 2.55rem); letter-spacing: -.04em; }
+    .section-head p { margin: 0; color: var(--muted); line-height: 1.7; max-width: 74ch; }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+
+    .card { padding: 24px; transition: .25s ease; transform-style: preserve-3d; }
+    .card:hover { transform: translateY(-4px) perspective(1000px) rotateX(2deg); box-shadow: 0 28px 82px rgba(0,0,0,.56), 0 0 0 1px rgba(63,140,255,.1) inset; }
+    .card h3 { margin: 0 0 12px; font-size: 1.18rem; letter-spacing: -.02em; }
+    .card p, .card li { color: var(--muted); line-height: 1.78; }
+    .card ul { margin: 12px 0 0; padding-left: 18px; }
+    .card li { margin: 8px 0; }
+    .icon {
+      width: 40px; height: 40px; border-radius: 14px; display: inline-flex; align-items: center; justify-content: center;
+      background: rgba(63,140,255,.10); border: 1px solid rgba(121,170,255,.14); margin-bottom: 12px; font-size: 1.05rem;
+    }
+    .tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+    .tag {
+      padding: 8px 12px; border-radius: 999px; font-size: .86rem;
+      background: rgba(63,140,255,.08); border: 1px solid rgba(121,170,255,.14); color: #d9e7ff;
+    }
+
+    .note {
+      padding: 24px; border-radius: var(--radius2); background: linear-gradient(135deg, rgba(63,140,255,.14), rgba(7,12,26,.95));
+      border: 1px solid rgba(121,170,255,.16); box-shadow: var(--shadow); position: relative; overflow: hidden;
+    }
+    .note::after {
+      content: ""; position: absolute; inset: auto -70px -90px auto; width: 240px; height: 240px; border-radius: 50%;
+      background: rgba(89,226,255,.10); filter: blur(12px);
+    }
+
+    .flow { display: grid; gap: 14px; }
+    .flow-item {
+      display: grid; grid-template-columns: 112px 1fr; gap: 16px; align-items: start; padding: 16px;
+      border-radius: 18px; background: rgba(255,255,255,.03); border: 1px solid rgba(121,170,255,.10);
+    }
+    .flow-item .step { font-weight: 900; color: #dce8ff; font-size: .92rem; }
+    .flow-item .desc { color: var(--muted); line-height: 1.72; }
+
+    .matrix-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 14px; }
+    .matrix-cell {
+      border-radius: 18px; padding: 16px; background: rgba(255,255,255,.03); border: 1px solid rgba(121,170,255,.10);
+      min-height: 140px;
+    }
+    .matrix-cell h4 { margin: 0 0 10px; font-size: 1rem; }
+    .matrix-cell p { margin: 0; color: var(--muted); line-height: 1.68; font-size: .95rem; }
+
+    .two-col-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .bullet-box {
+      padding: 16px; border-radius: 18px; background: rgba(255,255,255,.03); border: 1px solid rgba(121,170,255,.10);
+    }
+    .bullet-box strong { display: block; margin-bottom: 8px; }
+    .bullet-box span { color: var(--muted); line-height: 1.65; }
+
+    footer { padding: 34px 0 54px; text-align: center; color: var(--muted); }
+
+    .fade { animation: reveal .9s ease both; }
+    .d1 { animation-delay: .08s; }
+    .d2 { animation-delay: .18s; }
+    .d3 { animation-delay: .28s; }
+    .d4 { animation-delay: .38s; }
+
+    .divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(121,170,255,.20), transparent); margin: 28px 0; }
+
+    @media (max-width: 1080px) {
+      .hero-grid, .grid-2, .grid-3, .grid-4, .matrix-grid { grid-template-columns: 1fr; }
+      .nav { flex-direction: column; align-items: flex-start; }
+      .hero { padding-top: 42px; }
+      .hero-side { transform: none; }
+    }
+
+    @media (max-width: 640px) {
+      .container { width: min(var(--max), calc(100% - 22px)); }
+      .hero-copy, .hero-side, .card, .note { padding: 20px; border-radius: 22px; }
+      .stats { grid-template-columns: 1fr; }
+      .flow-item { grid-template-columns: 1fr; }
+      .two-col-list { grid-template-columns: 1fr; }
+      h1 { font-size: clamp(2.3rem, 11vw, 4rem); }
+      .links { gap: 8px; }
+      .links a { padding: 8px 11px; font-size: .87rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-bg"></div>
+  <div class="orb a"></div>
+  <div class="orb b"></div>
+  <div class="orb c"></div>
+
+  <div class="wrap">
+    <header>
+      <div class="container nav">
+        <div class="brand">
+          <div class="brand-mark"></div>
+          <div>
+            <div class="brand-title">MUN DIPLOMACY PLAYBOOK</div>
+            <div class="brand-sub">Tactics • Alliances • Backchannels • Committee Strategy</div>
+          </div>
+        </div>
+        <nav class="links">
+          <a href="#foundation">Foundation</a>
+          <a href="#tactics">Tactics</a>
+          <a href="#committees">Committees</a>
+          <a href="#negotiation">Negotiation</a>
+          <a href="#crisis">Crisis Diplomacy</a>
+          <a href="#dos">Do / Don’t</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <div class="hero-grid">
+          <div class="hero-copy fade">
+            <div class="kicker">Advanced Diplomacy Guide for MUN</div>
+            <h1><span class="gradient-text">Master the tactics</span> that turn a delegate into a diplomat.</h1>
+            <p>
+              Diplomacy in MUN is more than speaking politely. It is the art of building trust, creating coalitions, reading incentives, managing tension, and steering the room toward outcomes that survive negotiation. This guide brings together the practical tactics that work across committees, from General Assembly to Security Council to crisis and parliamentary settings.
+            </p>
+            <p>
+              The site is designed in a premium blue-and-black style with layered depth, 3D cards, motion, and a high-end conference aesthetic so it feels as polished as the ideas inside it.
+            </p>
+            <div class="cta-row">
+              <a class="btn primary" href="#foundation">Start with the Basics</a>
+              <a class="btn secondary" href="#committees">See Committee Tactics</a>
+            </div>
+            <div class="stats">
+              <div class="stat">
+                <strong>Committee-Wide</strong>
+                <span>Useful for GAs, specialized bodies, ECOSOC, crisis, and parliamentary rooms.</span>
+              </div>
+              <div class="stat">
+                <strong>Tradecraft Focus</strong>
+                <span>Coalitions, concessions, timing, framing, and silent influence.</span>
+              </div>
+              <div class="stat">
+                <strong>Real MUN Logic</strong>
+                <span>Built around procedure, negotiation, and practical outcome-building.</span>
+              </div>
+            </div>
+          </div>
+
+          <aside class="hero-side fade d1">
+            <div class="side-head">
+              <div class="chip">⟡ Diplomatic Power</div>
+              <div class="chip">Committee Control</div>
+            </div>
+            <div class="stack">
+              <div class="stack-item"><span class="dot"></span><div><b>Diplomacy is controlled persuasion.</b> You are not forcing agreement; you are making agreement the best available option.</div></div>
+              <div class="stack-item"><span class="dot"></span><div><b>Trust is a currency.</b> Delegates support people who are reliable, precise, and consistent with promises.</div></div>
+              <div class="stack-item"><span class="dot"></span><div><b>Timing beats noise.</b> The best move is often made after others reveal their positions and before they regroup.</div></div>
+              <div class="stack-item"><span class="dot"></span><div><b>Committee type changes tactics.</b> Crisis, Security Council, and Parliamentary bodies reward different forms of influence.</div></div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="foundation">
+        <div class="section-head">
+          <div>
+            <h2>1. What Diplomacy Means in MUN</h2>
+            <p>The UN itself describes negotiation as a way of coping with disagreement and reaching agreement. In MUN, that becomes the entire skill of the delegate: combine policy, persuasion, and procedure without losing credibility. ([un.org](https://www.un.org/en/model-united-nations/fundamentals-negotiation?utm_source=chatgpt.com))</p>
+          </div>
+        </div>
+        <div class="grid-3">
+          <div class="card fade d1">
+            <div class="icon">①</div>
+            <h3>Public diplomacy</h3>
+            <p>What you say in committee: speeches, moderated caucus interventions, questions, and motions that shape the room’s perception of your bloc.</p>
+          </div>
+          <div class="card fade d2">
+            <div class="icon">②</div>
+            <h3>Private diplomacy</h3>
+            <p>What you say in caucus: alliance building, compromise, trade-offs, side-deals, and trust-building with other delegates.</p>
+          </div>
+          <div class="card fade d3">
+            <div class="icon">③</div>
+            <h3>Procedural diplomacy</h3>
+            <p>How you use rules, motions, and document timing to create the most favorable debate environment for your position.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="tactics">
+        <div class="section-head">
+          <div>
+            <h2>2. Core Tactics Every Delegate Should Know</h2>
+            <p>These tactics work because they influence what people think, what they are willing to give up, and what they believe is politically possible inside the committee room.</p>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <h3>Framing</h3>
+            <p>Frame the issue so that your side appears reasonable before the actual debate begins. A good frame defines the problem, the actors, the urgency, and the acceptable range of solutions.</p>
+            <ul>
+              <li><strong>Why it works:</strong> people usually argue inside the frame that is first established.</li>
+              <li><strong>How to use it:</strong> start speeches with the most defensible interpretation of the topic.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Coalition building</h3>
+            <p>Coalitions are not built on friendship alone. They are built on shared incentives, overlapping interests, and a draft that lets different states win something.</p>
+            <ul>
+              <li><strong>Why it works:</strong> one delegate can speak, but a bloc can pass text.</li>
+              <li><strong>How to use it:</strong> give each ally a meaningful role or clause ownership.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="grid-3" style="margin-top:18px;">
+          <div class="card">
+            <h3>Concession strategy</h3>
+            <p>Give up low-value points to protect high-value ones. Good diplomacy looks like compromise, but the compromise should still leave your core goal intact.</p>
+          </div>
+          <div class="card">
+            <h3>BATNA thinking</h3>
+            <p>Your best alternative if talks fail matters. If your fallback is strong, you negotiate from strength; if it is weak, you should avoid overcommitting. The logic aligns with standard negotiation training used by the UN and professional diplomacy programs. ([un.org](https://www.un.org/en/model-united-nations/fundamentals-negotiation?utm_source=chatgpt.com))</p>
+          </div>
+          <div class="card">
+            <h3>ZOPA awareness</h3>
+            <p>Know the zone where agreement is possible. Pushing outside it wastes time; shaping proposals inside it gets signatures and votes.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="committees">
+        <div class="section-head">
+          <div>
+            <h2>3. Tactics by Committee Type</h2>
+            <p>Different committees reward different styles of diplomacy. A strategy that wins in one room can fail in another.</p>
+          </div>
+        </div>
+        <div class="matrix-grid">
+          <div class="matrix-cell">
+            <h4>General Assembly</h4>
+            <p>Use broad coalition language, moderate positions, and long-term consensus-building. The room rewards inclusivity and final text that many delegations can sign.</p>
+          </div>
+          <div class="matrix-cell">
+            <h4>Security Council</h4>
+            <p>Be precise, fast, and politically aware. Every word matters more because the room is smaller, the stakes are higher, and veto logic changes the math.</p>
+          </div>
+          <div class="matrix-cell">
+            <h4>ECOSOC / Specialized</h4>
+            <p>Focus on technical solutions, implementation capacity, development pathways, and cooperation between institutions rather than only moral claims.</p>
+          </div>
+          <div class="matrix-cell">
+            <h4>Crisis</h4>
+            <p>Think in sequences. You are not only negotiating policy; you are also reacting to events, exploiting openings, and shaping the next update before others do.</p>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top:18px;">
+          <div class="card">
+            <h3>In General Assemblies</h3>
+            <ul>
+              <li>Use legitimacy and inclusivity as your main tools.</li>
+              <li>Offer broad solutions that can absorb multiple blocs.</li>
+              <li>Do not sound maximalist if you need sponsors later.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>In Security Council or small bodies</h3>
+            <ul>
+              <li>Work the room privately before formal debate.</li>
+              <li>Prepare short, sharp language that can survive intense scrutiny.</li>
+              <li>Manage rival powers by separating what they need from what they want.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="negotiation">
+        <div class="section-head">
+          <div>
+            <h2>4. How to Negotiate Like a Diplomat</h2>
+            <p>HMUN-style preparation emphasizes research, clear national interests, and the ability to turn a position into usable committee language. ([harvardmun.org](https://www.harvardmun.org/position-papers?utm_source=chatgpt.com))</p>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <h3>The negotiation sequence</h3>
+            <ul>
+              <li>Identify your non-negotiables.</li>
+              <li>Identify what others care about most.</li>
+              <li>Build a package where every side gets a visible win.</li>
+              <li>Use draft language to lock agreement in writing.</li>
+              <li>Confirm support before the room shifts.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>What to write in the room</h3>
+            <ul>
+              <li>Amendments that improve acceptability.</li>
+              <li>Co-sponsorship offers tied to real clause ownership.</li>
+              <li>Small clarifications that remove objections before voting.</li>
+              <li>Alternative text for disputed parts of the draft.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="grid-3">
+          <div class="card">
+            <h3>Backchanneling</h3>
+            <p>Quiet talks after speeches often matter more than the speech itself. This is where red lines become softer and amendments become possible.</p>
+          </div>
+          <div class="card">
+            <h3>Linkage politics</h3>
+            <p>Connect one issue to another if that helps secure support. Delegates often support text when it indirectly protects a broader interest.</p>
+          </div>
+          <div class="card">
+            <h3>Face-saving</h3>
+            <p>Make compromise politically safe for others. People support deals more easily when they can explain them as victories, not surrender.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="crisis">
+        <div class="section-head">
+          <div>
+            <h2>5. Crisis Diplomacy and Fast-Moving Rooms</h2>
+            <p>In crisis committees, diplomacy is compressed. You need speed, flexibility, and the ability to read whether the room is moving toward escalation, stabilization, or fragmentation.</p>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <h3>How crisis diplomacy works</h3>
+            <p>
+              In a crisis room, the environment changes after each update. Strong delegates prepare short-term and long-term plans at the same time. They negotiate publicly, send private crisis notes where relevant, and stay ready to pivot when the update changes the conditions.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Best tactics in crisis</h3>
+            <ul>
+              <li>Act before others realize the opening exists.</li>
+              <li>Use partial wins to unlock larger moves.</li>
+              <li>Keep your proposals executable under time pressure.</li>
+              <li>Never ignore how the next update may punish weak logic.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="note" style="margin-top:18px;">
+          <h3 style="margin-top:0">Crisis lesson</h3>
+          <p style="margin-bottom:0; max-width: 90ch;">
+            The delegate who wins crisis is usually the one who understands sequence, not just drama. A small move at the right time can be more powerful than a large move that arrives too late.
+          </p>
+        </div>
+      </section>
+
+      <section id="dos">
+        <div class="section-head">
+          <div>
+            <h2>6. What Strong Diplomacy Looks Like</h2>
+            <p>Good diplomats make the room easier to work with. They do not need to dominate every conversation to control the direction of the committee.</p>
+          </div>
+        </div>
+
+        <div class="two-col-list">
+          <div class="bullet-box">
+            <strong>Do this</strong>
+            <span>Research positions carefully, speak with a calm tone, make offers that are actually usable, and keep your word when you negotiate support.</span>
+          </div>
+          <div class="bullet-box">
+            <strong>Avoid this</strong>
+            <span>Do not overpromise, do not corner allies into rejecting you, do not confuse aggression with strength, and do not make a deal you cannot defend later.</span>
+          </div>
+        </div>
+
+        <div class="grid-3" style="margin-top:18px;">
+          <div class="card">
+            <h3>Soft power</h3>
+            <p>Influence through trust, expertise, and consistency. A delegate who seems reliable is often more persuasive than a delegate who speaks the loudest.</p>
+          </div>
+          <div class="card">
+            <h3>Hard bargaining</h3>
+            <p>Use only when necessary. Clear demands can be useful, but they should still leave room for the other side to say yes without humiliation.</p>
+          </div>
+          <div class="card">
+            <h3>Strategic silence</h3>
+            <p>Sometimes not speaking immediately is more powerful. Silence can force others to reveal their priorities or make concessions first.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="note">
+          <h2 style="margin-top:0">7. Final Diplomatic Formula</h2>
+          <p style="margin-bottom:0; max-width: 92ch;">
+            The strongest MUN diplomacy follows a simple pattern: understand the interests, frame the debate, build the bloc, negotiate the trade-offs, write the text, and protect the final vote. Whether the committee is broad, technical, or crisis-driven, the delegate who combines procedure with tact will always control more of the room than the delegate who only speaks well.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        Built as a premium diplomacy website for MUN with a dark blue-and-black aesthetic, layered depth, and committee-ready strategic guidance.
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

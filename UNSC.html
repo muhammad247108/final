@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UNSC Study Guide | MUN & Real Life</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --bg: #f4f8ff;
+      --bg-2: #eaf1ff;
+      --card: rgba(255,255,255,0.82);
+      --card-strong: rgba(255,255,255,0.92);
+      --stroke: rgba(16, 44, 89, 0.10);
+      --text: #0b1e3a;
+      --muted: rgba(11, 30, 58, 0.70);
+      --muted-2: rgba(11, 30, 58, 0.56);
+      --blue: #1f5fbf;
+      --blue-2: #64a3ff;
+      --navy: #0b1e3a;
+      --gold: #d8b35f;
+      --white: #ffffff;
+      --shadow: 0 24px 80px rgba(11, 30, 58, 0.12);
+      --radius: 28px;
+      --max: 1240px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 16% 18%, rgba(100,163,255,0.18), transparent 20%),
+        radial-gradient(circle at 82% 12%, rgba(31,95,191,0.14), transparent 18%),
+        radial-gradient(circle at 80% 78%, rgba(216,179,95,0.10), transparent 22%),
+        linear-gradient(135deg, #f8fbff 0%, #eef4ff 46%, #edf3ff 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(120deg, rgba(31,95,191,0.05) 0%, transparent 35%, transparent 65%, rgba(216,179,95,0.04) 100%);
+      z-index: 0;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+    }
+
+    .container {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+      background: rgba(255,255,255,0.76);
+      border-bottom: 1px solid rgba(16,44,89,0.08);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 16px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .brand-badge {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(145deg, rgba(31,95,191,0.16), rgba(255,255,255,0.92));
+      border: 1px solid rgba(16,44,89,0.10);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.32);
+    }
+
+    .brand-badge svg { width: 24px; height: 24px; color: var(--blue); }
+
+    .nav-links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      transition: 0.24s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+      background: rgba(31,95,191,0.08);
+      border-color: rgba(31,95,191,0.12);
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      position: relative;
+      padding: 72px 0 40px;
+    }
+
+    .floating-badges {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .float-badge {
+      position: absolute;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.80);
+      border: 1px solid rgba(16,44,89,0.08);
+      color: var(--muted);
+      font-size: 0.85rem;
+      backdrop-filter: blur(12px);
+      animation: drift 10s ease-in-out infinite, shimmer 5.5s ease-in-out infinite;
+    }
+
+    .float-badge:nth-child(1) { top: 12%; left: 3%; }
+    .float-badge:nth-child(2) { top: 20%; right: 6%; animation-duration: 12s, 6s; }
+    .float-badge:nth-child(3) { bottom: 18%; left: 8%; animation-duration: 13s, 5.5s; }
+    .float-badge:nth-child(4) { bottom: 14%; right: 10%; animation-duration: 11s, 6.5s; }
+
+    .hero-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.76);
+      border: 1px solid rgba(16,44,89,0.08);
+      color: var(--muted);
+      font-size: 0.92rem;
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow i { color: var(--gold); }
+
+    h1 {
+      margin: 18px 0 16px;
+      font-size: clamp(2.7rem, 5vw, 5.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+      max-width: 11ch;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.8;
+      max-width: 66ch;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 20px;
+      border-radius: 16px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: 0.25s ease;
+      border: 1px solid transparent;
+      box-shadow: var(--shadow);
+    }
+
+    .btn.primary {
+      color: #07325a;
+      background: linear-gradient(135deg, #ffffff 0%, #eff5ff 50%, #cfe0ff 100%);
+    }
+
+    .btn.secondary {
+      color: var(--text);
+      background: rgba(255,255,255,0.76);
+      border-color: rgba(16,44,89,0.10);
+    }
+
+    .btn:hover { transform: translateY(-3px) scale(1.01); }
+
+    .hero-card {
+      position: relative;
+      min-height: 540px;
+      border-radius: 34px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.76)),
+        linear-gradient(145deg, rgba(236,244,255,0.98), rgba(215,229,255,0.94));
+      border: 1px solid rgba(16,44,89,0.10);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transform-style: preserve-3d;
+      perspective: 1100px;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(100,163,255,0.26) 0%, rgba(100,163,255,0.10) 36%, transparent 70%);
+      top: -130px;
+      right: -180px;
+      filter: blur(8px);
+      animation: floatGlow 8s ease-in-out infinite;
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.42) 25%, transparent 50%, rgba(255,255,255,0.24) 75%, transparent 100%);
+      pointer-events: none;
+    }
+
+    .card-content {
+      position: relative;
+      z-index: 2;
+      padding: 28px;
+      height: 100%;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 22px;
+    }
+
+    .mini-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.86);
+      border: 1px solid rgba(16,44,89,0.08);
+    }
+
+    .status .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #4f90ff;
+      box-shadow: 0 0 0 6px rgba(79,144,255,0.12);
+    }
+
+    .council {
+      position: relative;
+      min-height: 350px;
+      display: grid;
+      place-items: center;
+      transform-style: preserve-3d;
+      margin-top: 4px;
+    }
+
+    .halo {
+      position: absolute;
+      width: min(82%, 410px);
+      aspect-ratio: 1/1;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 35%, rgba(255,255,255,0.98), rgba(255,255,255,0.34) 30%, transparent 31%),
+        radial-gradient(circle at 50% 58%, rgba(31,95,191,0.50), rgba(11,30,58,0.88) 58%, rgba(11,30,58,0.98) 68%);
+      box-shadow: inset 0 -18px 45px rgba(11,30,58,0.12), 0 25px 70px rgba(11,30,58,0.10);
+      transform: translateZ(26px);
+      animation: breathe 6s ease-in-out infinite;
+    }
+
+    .halo::before,
+    .halo::after {
+      content: "";
+      position: absolute;
+      inset: 16% 18% 28% 18%;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.16);
+    }
+
+    .halo::after {
+      inset: 22% 26% 36% 26%;
+      border-color: rgba(255,255,255,0.10);
+    }
+
+    .seats {
+      position: absolute;
+      inset: 18% 12% 16%;
+      border-radius: 999px 999px 36px 36px;
+      background:
+        radial-gradient(circle at 50% 85%, rgba(255,255,255,0.60), transparent 38%),
+        linear-gradient(180deg, rgba(255,255,255,0.60), rgba(255,255,255,0.24));
+      border: 1px solid rgba(16,44,89,0.08);
+      transform: rotateX(64deg) translateZ(32px);
+      box-shadow: inset 0 2px 0 rgba(255,255,255,0.16);
+    }
+
+    .seats::before,
+    .seats::after {
+      content: "";
+      position: absolute;
+      inset: 11% 10%;
+      border-radius: inherit;
+      border: 1px dashed rgba(16,44,89,0.12);
+    }
+
+    .podium {
+      position: absolute;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%) translateZ(42px);
+      width: 164px;
+      height: 92px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.62));
+      border: 1px solid rgba(16,44,89,0.10);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 18px 40px rgba(11,30,58,0.10);
+    }
+
+    .podium::before {
+      content: "United Nations Security Council";
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.35;
+      width: 124px;
+    }
+
+    .orbit {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(16,44,89,0.10);
+      animation: spin 18s linear infinite;
+    }
+
+    .orbit.one { width: 450px; height: 450px; }
+    .orbit.two { width: 308px; height: 308px; animation-duration: 14s; }
+    .orbit.three { width: 180px; height: 180px; animation-duration: 10s; }
+
+    .stat-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .stat {
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.86);
+      border: 1px solid rgba(16,44,89,0.08);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.08rem;
+      margin-bottom: 4px;
+    }
+
+    .stat span { color: var(--muted-2); font-size: 0.86rem; }
+
+    section {
+      padding: 26px 0 16px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: end;
+      margin-bottom: 18px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(1.6rem, 3vw, 2.6rem);
+      letter-spacing: -0.03em;
+    }
+
+    .section-head p {
+      margin: 0;
+      max-width: 68ch;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .glass {
+      position: relative;
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.74));
+      border: 1px solid var(--stroke);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      backdrop-filter: blur(18px);
+      transform-style: preserve-3d;
+    }
+
+    .glass .pad { padding: 22px; }
+
+    .feature {
+      min-height: 210px;
+      transition: 0.3s ease;
+    }
+
+    .feature:hover,
+    .tilt:hover {
+      transform: translateY(-10px) rotateX(4deg) rotateY(-4deg) scale(1.01);
+      border-color: rgba(31,95,191,0.24);
+      box-shadow: 0 34px 100px rgba(11,30,58,0.18);
+    }
+
+    .icon-box {
+      width: 50px;
+      height: 50px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 14px;
+      background: linear-gradient(145deg, rgba(31,95,191,0.16), rgba(255,255,255,0.90));
+      border: 1px solid rgba(16,44,89,0.10);
+    }
+
+    .icon-box svg { width: 24px; height: 24px; color: var(--blue); }
+
+    .feature h3,
+    .step h3,
+    .compare h3,
+    .topic h3 {
+      margin: 0 0 8px;
+      font-size: 1.12rem;
+    }
+
+    .muted {
+      color: var(--muted);
+      line-height: 1.75;
+      margin: 0;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .pill {
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(16,44,89,0.08);
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .timeline {
+      position: relative;
+      padding-left: 30px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 12px;
+      top: 10px;
+      bottom: 10px;
+      width: 2px;
+      background: linear-gradient(180deg, rgba(31,95,191,0.95), rgba(216,179,95,0.35));
+    }
+
+    .step {
+      position: relative;
+      margin-bottom: 18px;
+    }
+
+    .step::before {
+      content: "";
+      position: absolute;
+      left: -30px;
+      top: 7px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #64a3ff, #ffffff);
+      box-shadow: 0 0 0 5px rgba(100,163,255,0.12);
+    }
+
+    .step .glass { background: rgba(255,255,255,0.82); }
+
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .compare .vs {
+      align-self: center;
+      width: 66px;
+      height: 66px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(100,163,255,0.18), rgba(216,179,95,0.18));
+      border: 1px solid rgba(16,44,89,0.10);
+      font-weight: 900;
+      color: var(--text);
+      letter-spacing: 0.12em;
+    }
+
+    .compare .pane {
+      padding: 22px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(16,44,89,0.08);
+      box-shadow: var(--shadow);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.82);
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 12px;
+      border: 1px solid rgba(16,44,89,0.08);
+    }
+
+    .tag i { color: var(--blue); }
+
+    .check-list {
+      list-style: none;
+      padding: 0;
+      margin: 16px 0 0;
+      display: grid;
+      gap: 12px;
+    }
+
+    .check-list li {
+      position: relative;
+      padding-left: 28px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .check-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 9px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #64a3ff, #ffffff);
+      box-shadow: 0 0 0 4px rgba(100,163,255,0.10);
+    }
+
+    .accordion {
+      display: grid;
+      gap: 12px;
+    }
+
+    details {
+      border-radius: 22px;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(16,44,89,0.08);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 18px 20px;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+
+    details .content {
+      padding: 0 20px 18px;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .a-z {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .topic {
+      padding: 18px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(16,44,89,0.08);
+    }
+
+    .topic .letter {
+      display: inline-grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(31,95,191,0.16), rgba(255,255,255,0.90));
+      border: 1px solid rgba(16,44,89,0.10);
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .footer {
+      padding: 42px 0 58px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .footer .glass {
+      padding: 24px;
+      border-radius: 28px;
+    }
+
+    .scroll-top {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 1px solid rgba(16,44,89,0.10);
+      background: rgba(255,255,255,0.86);
+      backdrop-filter: blur(12px);
+      display: grid;
+      place-items: center;
+      color: var(--text);
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.25s ease;
+      z-index: 60;
+    }
+
+    .scroll-top.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px) scale(0.985);
+      transition: 0.8s ease;
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes floatGlow { 0%,100%{transform:translate3d(0,0,0) scale(1);} 50%{transform:translate3d(-14px,18px,0) scale(1.06);} }
+    @keyframes drift { 0%,100%{transform:translateY(0px) translateX(0px);} 50%{transform:translateY(-14px) translateX(12px);} }
+    @keyframes shimmer { 0%,100%{box-shadow:0 14px 40px rgba(11,30,58,0.08);} 50%{box-shadow:0 18px 48px rgba(11,30,58,0.16);} }
+    @keyframes breathe { 0%,100%{transform:translateZ(26px) scale(1);} 50%{transform:translateZ(26px) scale(1.02);} }
+
+    @media (max-width: 1060px) {
+      .hero-grid,
+      .grid-2,
+      .grid-3,
+      .grid-4,
+      .compare,
+      .a-z {
+        grid-template-columns: 1fr;
+      }
+      .compare .vs { justify-self: center; }
+      h1 { max-width: 14ch; }
+    }
+
+    @media (max-width: 720px) {
+      .nav-inner { flex-direction: column; align-items: flex-start; }
+      .hero { padding-top: 48px; }
+      .card-content { padding: 18px; }
+      .stat-strip { grid-template-columns: 1fr; }
+      .section-head { flex-direction: column; align-items: flex-start; }
+      .hero-actions { flex-direction: column; }
+      .btn { width: 100%; justify-content: center; }
+      .hero-card { min-height: 470px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="nav">
+      <div class="container nav-inner">
+        <a class="brand" href="#top">
+          <span class="brand-badge"><i data-lucide="shield"></i></span>
+          <span>UNSC Study Guide</span>
+        </a>
+        <div class="nav-links">
+          <a href="#intro">Intro</a>
+          <a href="#structure">Structure</a>
+          <a href="#powers">Powers</a>
+          <a href="#rules">Rules</a>
+          <a href="#mun">MUN Guide</a>
+          <a href="#az">A to Z</a>
+        </div>
+      </div>
+    </nav>
+
+    <main id="top" class="container hero">
+      <div class="floating-badges">
+        <div class="float-badge">UN Blue Gradient</div>
+        <div class="float-badge">Security Council</div>
+        <div class="float-badge">MUN Strategy</div>
+        <div class="float-badge">Real Procedure</div>
+      </div>
+
+      <div class="hero-grid">
+        <div class="reveal">
+          <span class="eyebrow"><i data-lucide="sparkles"></i> A detailed guide to the UN Security Council in real life and MUN</span>
+          <h1>Master the UNSC with clarity, strategy, and precision.</h1>
+          <p>
+            This guide explains the United Nations Security Council as an institution of global peace and security, then translates it into the logic of a Model United Nations committee.
+            It covers structure, membership, veto power, voting, presidency, resolutions, debate flow, and the skills needed to perform well in committee.
+          </p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#intro"><i data-lucide="arrow-right"></i> Start the guide</a>
+            <a class="btn secondary" href="#mun"><i data-lucide="book-open"></i> MUN breakdown</a>
+          </div>
+        </div>
+
+        <div class="hero-card tilt reveal">
+          <div class="card-content">
+            <div class="mini-top">
+              <div class="status"><span class="dot"></span> Live Council Overview</div>
+              <div>UN • Peace • Security</div>
+            </div>
+            <div class="council">
+              <div class="orbit one"></div>
+              <div class="orbit two"></div>
+              <div class="orbit three"></div>
+              <div class="seats"></div>
+              <div class="halo"></div>
+              <div class="podium"></div>
+            </div>
+            <div class="stat-strip">
+              <div class="stat"><strong>15 Members</strong><span>5 permanent + 10 elected</span></div>
+              <div class="stat"><strong>Veto Power</strong><span>Only permanent members</span></div>
+              <div class="stat"><strong>Monthly Presidency</strong><span>Rotates alphabetically</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <section id="intro">
+      <div class="container reveal">
+        <div class="section-head">
+          <div>
+            <h2>Introduction to the UNSC</h2>
+            <p>The Security Council is one of the principal organs of the United Nations and is responsible for maintaining international peace and security. It can adopt binding decisions, authorize action, and address threats to peace.</p>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="glass feature tilt">
+            <div class="pad">
+              <div class="icon-box"><i data-lucide="globe-2"></i></div>
+              <h3>Why it matters</h3>
+              <p class="muted">It is the closest thing the UN has to a global crisis-management body. When the Council acts, the entire international system pays attention.</p>
+            </div>
+          </div>
+          <div class="glass feature tilt">
+            <div class="pad">
+              <div class="icon-box"><i data-lucide="shield-check"></i></div>
+              <h3>What it controls</h3>
+              <p class="muted">It can call for ceasefires, impose sanctions, establish peace operations, authorize force under the Charter, and shape responses to conflicts and threats.</p>
+            </div>
+          </div>
+          <div class="glass feature tilt">
+            <div class="pad">
+              <div class="icon-box"><i data-lucide="file-text"></i></div>
+              <h3>Why MUN uses it</h3>
+              <p class="muted">The UNSC committee teaches diplomacy, negotiation, bloc politics, veto strategy, and how to write realistic resolutions under pressure.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="structure">
+      <div class="container reveal">
+        <div class="section-head">
+          <div>
+            <h2>Structure of the Council</h2>
+            <p>The Council is composed of 15 members: five permanent members and ten non-permanent members elected for two-year terms. The presidency rotates monthly in English alphabetical order.</p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="glass pad tilt">
+            <div class="tag"><i data-lucide="crown"></i> Permanent members</div>
+            <p class="muted">China, France, the Russian Federation, the United Kingdom, and the United States hold permanent seats and possess veto power over substantive decisions.</p>
+            <div class="pill-row">
+              <span class="pill">P5</span>
+              <span class="pill">Veto power</span>
+              <span class="pill">Substantive votes</span>
+              <span class="pill">Influence</span>
+            </div>
+          </div>
+          <div class="glass pad tilt">
+            <div class="tag"><i data-lucide="users"></i> Elected members</div>
+            <p class="muted">Ten non-permanent members are elected by the General Assembly for two-year terms. They bring regional representation, procedural balance, and rotating influence to the Council.</p>
+            <div class="pill-row">
+              <span class="pill">E10</span>
+              <span class="pill">Regional balance</span>
+              <span class="pill">Two-year terms</span>
+              <span class="pill">Coalitions</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="powers">
+      <div class="container reveal">
+        <div class="section-head">
+          <div>
+            <h2>What the UNSC can do</h2>
+            <p>The Council’s authority is practical and political. It is designed to move from concern to action when international peace is at risk.</p>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="glass feature tilt"><div class="pad"><div class="icon-box"><i data-lucide="sprout"></i></div><h3>Prevent escalation</h3><p class="muted">It can urge restraint, support mediation, and call for peaceful settlement before a crisis turns into open conflict.</p></div></div>
+          <div class="glass feature tilt"><div class="pad"><div class="icon-box"><i data-lucide="badge-alert"></i></div><h3>Impose measures</h3><p class="muted">It can adopt sanctions or other non-military measures to pressure actors into compliance with international peace and security objectives.</p></div></div>
+          <div class="glass feature tilt"><div class="pad"><div class="icon-box"><i data-lucide="swords"></i></div><h3>Authorize force</h3><p class="muted">Under the Charter, the Council may authorize collective action when it determines that the situation requires stronger enforcement.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="rules">
+      <div class="container reveal">
+        <div class="section-head">
+          <div>
+            <h2>Rules and procedure</h2>
+            <p>Real UNSC procedure is governed by the Charter and the Council’s Provisional Rules of Procedure. In MUN, the committee adapts those principles into debate formats, motions, and voting.</p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="glass pad tilt">
+            <h3>Real Council procedure</h3>
+            <ul class="check-list">
+              <li>The President calls speakers in the order they signify their desire to speak.</li>
+              <li>The presidency rotates monthly among members in English alphabetical order.</li>
+              <li>The Council usually meets in public unless it decides otherwise.</li>
+              <li>Substantive resolutions require nine affirmative votes and no veto from a permanent member.</li>
+            </ul>
+          </div>
+          <div class="glass pad tilt">
+            <h3>What that means in MUN</h3>
+            <p class="muted">Delegates should speak with precision, manage bloc politics, negotiate text, and understand the difference between procedural and substantive voting. Great UNSC delegates think like diplomats, not only speakers.</p>
+            <div class="pill-row">
+              <span class="pill">Speaker’s list</span>
+              <span class="pill">Drafting</span>
+              <span class="pill">Procedural votes</span>
+              <span class="pill">Substantive votes</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:18px"></div>
+
+        <div class="accordion">
+          <details open>
+            <summary>Veto logic <i data-lucide="chevron-down"></i></summary>
+            <div class="content">
+              A veto is not simply a “no” vote. In the Security Council, it is the power of a permanent member to block a substantive draft resolution, even when most members support it. That makes coalition-building essential.
+            </div>
+          </details>
+          <details>
+            <summary>Why abstentions matter <i data-lucide="chevron-down"></i></summary>
+            <div class="content">
+              In practice, an abstention by a permanent member does not block adoption of a resolution if the Council still reaches the required affirmative votes. That is why negotiation often aims for strategic abstention rather than outright opposition.
+            </div>
+          </details>
+          <details>
+            <summary>Public and private meetings <i data-lucide="chevron-down"></i></summary>
+            <div class="content">
+              The Council generally meets in public, but it can move into private consultation. In MUN this helps mimic diplomatic realism: sometimes the best negotiations happen away from the formal microphones.
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section id="mun">
+      <div class="container reveal">
+        <div class="section-head">
+          <div>
+            <h2>How UNSC works in MUN</h2>
+            <p>In committee, the UNSC is usually crisis-oriented, high stakes, and heavily focused on negotiation. Delegates need fast thinking, alliance building, and policy realism.</p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="glass pad tilt">
+            <h3>Typical flow of debate</h3>
+            <div class="timeline" style="margin-top:18px;">
+              <div class="step">
+                <div class="glass pad">
+                  <h3>1. Roll call and agenda</h3>
+                  <p class="muted">The chair opens the session, calls attendance, and confirms the topic or crisis under discussion.</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="glass pad">
+                  <h3>2. Setting the field</h3>
+                  <p class="muted">Delegates declare positions, identify allies and rivals, and define the major fault lines of the crisis.</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="glass pad">
+                  <h3>3. Negotiation and blocs</h3>
+                  <p class="muted">Members form drafting groups, trade concessions, and create a resolution that can survive veto politics.</p>
+                </div>
+              </div>
+              <div class="step" style="margin-bottom:0;">
+                <div class="glass pad">
+                  <h3>4. Voting and outcome</h3>
+                  <p class="muted">The final text is presented, amended, and voted on. Success depends on both substance and procedural execution.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass pad tilt">
+            <h3>What strong delegates understand</h3>
+            <ul class="check-list">
+              <li>Great UNSC speeches are short, sharp, and policy-driven.</li>
+              <li>Every clause should have a mechanism, not just a wish.</li>
+              <li>Permanent members may protect interests, but elected members can still shape outcomes through coalition power.</li>
+              <li>Crisis arcs reward delegates who react quickly and coordinate efficiently.</li>
+              <li>Resolution language matters because the Council acts through text, not vibes.</li>
+            </ul>
+            <div class="pill-row">
+              <span class="pill">Coalition politics</span>
+              <span class="pill">Draft resolution</span>
+              <span class="pill">Veto strategy</span>
+              <span class="pill">Crisis response</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container reveal">
+        <div class="section-head">
+          <div>
+            <h2>Real life vs MUN</h2>
+            <p>This comparison helps delegates see what is faithful to the UN and what is adapted for educational simulation.</p>
+          </div>
+        </div>
+
+        <div class="compare">
+          <div class="pane tilt">
+            <div class="tag"><i data-lucide="building-2"></i> Real UNSC</div>
+            <h3>Global security organ</h3>
+            <p class="muted">The Council acts under the UN Charter and produces binding outcomes on peace and security questions.</p>
+            <ul class="check-list">
+              <li>Legal and political authority under the Charter.</li>
+              <li>Substantive voting with veto power.</li>
+              <li>Peace operations, sanctions, and authorizations.</li>
+            </ul>
+          </div>
+          <div class="vs">VS</div>
+          <div class="pane tilt">
+            <div class="tag"><i data-lucide="graduation-cap"></i> MUN UNSC</div>
+            <h3>Educational simulation</h3>
+            <p class="muted">Delegates simulate crisis diplomacy, bargaining, and drafting under time pressure.</p>
+            <ul class="check-list">
+              <li>Educational outcomes rather than legal force.</li>
+              <li>Short speeches, fast alliances, and amendments.</li>
+              <li>Focus on realism, clarity, and strategic compromise.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container reveal">
+        <div class="section-head">
+          <div>
+            <h2>How to speak like a strong UNSC delegate</h2>
+            <p>Use a simple logic chain: claim, mechanism, result, impact. That keeps the speech tight, diplomatic, and persuasive.</p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="glass pad tilt">
+            <h3>Speech formula</h3>
+            <ul class="check-list">
+              <li><strong>Claim:</strong> what your country wants.</li>
+              <li><strong>Mechanism:</strong> how the Council can make it happen.</li>
+              <li><strong>Result:</strong> what changes on the ground.</li>
+              <li><strong>Impact:</strong> why the change matters for peace and security.</li>
+            </ul>
+          </div>
+          <div class="glass pad tilt">
+            <h3>Example</h3>
+            <p class="muted">If your claim is that ceasefire monitoring improves stability, the mechanism is a Council-backed observation mission, the result is fewer violations and clearer reporting, and the impact is reduced escalation and better conditions for negotiations.</p>
+            <div class="pill-row">
+              <span class="pill">Claim</span>
+              <span class="pill">Mechanism</span>
+              <span class="pill">Result</span>
+              <span class="pill">Impact</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container reveal">
+        <div class="section-head">
+          <div>
+            <h2>Final takeaway</h2>
+            <p>The UNSC rewards delegates who combine realism, speed, and diplomacy. The best performance is not the loudest speech; it is the text that survives the vote.</p>
+          </div>
+        </div>
+
+        <div class="glass pad tilt">
+          <p class="muted" style="font-size:1.03rem;">
+            In real life, the Security Council is a legal and political instrument for protecting international peace. In MUN, it becomes a high-pressure simulation of crisis management, where persuasion, coalition building, and procedural mastery decide who shapes the outcome.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="glass">
+          <strong style="display:block; color:var(--text); font-size:1.05rem; margin-bottom:8px;">UNSC Study Guide</strong>
+          <span>UN-blue gradient • detailed committee guide • premium academic presentation</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <button class="scroll-top" id="scrollTop" aria-label="Scroll to top"><i data-lucide="arrow-up"></i></button>
+
+  <script>
+    lucide.createIcons();
+
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('show');
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => observer.observe(el));
+
+    const scrollTopBtn = document.getElementById('scrollTop');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 500) scrollTopBtn.classList.add('show');
+      else scrollTopBtn.classList.remove('show');
+    });
+    scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    const card = document.querySelector('.hero-card');
+    if (card) {
+      const maxRotate = 8;
+      const onMove = (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width;
+        const y = (e.clientY - rect.top) / rect.height;
+        const rotateY = (x - 0.5) * maxRotate * 2;
+        const rotateX = (0.5 - y) * maxRotate * 2;
+        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-2px)`;
+      };
+      const reset = () => { card.style.transform = 'rotateX(0deg) rotateY(0deg)'; };
+      card.addEventListener('mousemove', onMove);
+      card.addEventListener('mouseleave', reset);
+    }
+  </script>
+</body>
+</html>

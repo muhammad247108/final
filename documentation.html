@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MUN Documentation Hub | Resolutions, Crisis Notes & Bills</title>
+  <style>
+    :root {
+      --bg: #040712;
+      --bg2: #071225;
+      --card: rgba(10, 18, 40, 0.74);
+      --card2: rgba(7, 12, 26, 0.92);
+      --line: rgba(124, 170, 255, 0.16);
+      --text: #eef4ff;
+      --muted: #9fb2d8;
+      --blue: #3f8cff;
+      --blue2: #7ab8ff;
+      --cyan: #59e2ff;
+      --shadow: 0 24px 90px rgba(0,0,0,.46);
+      --radius: 26px;
+      --radius2: 34px;
+      --max: 1240px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 16% 14%, rgba(63,140,255,0.17), transparent 22%),
+        radial-gradient(circle at 84% 16%, rgba(89,226,255,0.10), transparent 20%),
+        radial-gradient(circle at 52% 82%, rgba(63,140,255,0.08), transparent 24%),
+        linear-gradient(180deg, #02040b, #071022 45%, #03050d 100%);
+      overflow-x: hidden;
+    }
+
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .18;
+      background-image:
+        linear-gradient(rgba(122, 184, 255, .10) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(122, 184, 255, .10) 1px, transparent 1px);
+      background-size: 66px 66px;
+      mask-image: radial-gradient(circle at center, black 34%, transparent 100%);
+      transform: perspective(900px) rotateX(64deg) translateY(-10%);
+      transform-origin: top center;
+      animation: drift 18s linear infinite;
+      z-index: 0;
+    }
+
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(28px);
+      opacity: .5;
+      z-index: 0;
+      animation: float 14s ease-in-out infinite;
+    }
+    .orb.a { left: -60px; top: 13%; width: 260px; height: 260px; background: rgba(63,140,255,.14); }
+    .orb.b { right: 10%; top: 22%; width: 180px; height: 180px; background: rgba(89,226,255,.10); animation-delay: -5s; }
+    .orb.c { right: 15%; bottom: -100px; width: 330px; height: 330px; background: rgba(63,140,255,.09); animation-delay: -9s; }
+
+    @keyframes drift { from { background-position: 0 0, 0 0; } to { background-position: 0 66px, 66px 0; } }
+    @keyframes float { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(0,-18px,0) scale(1.03); } }
+    @keyframes reveal { from { opacity: 0; transform: translateY(26px) scale(.985); filter: blur(8px); } to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } }
+
+    .wrap { position: relative; z-index: 1; }
+    .container { width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
+
+    header {
+      position: sticky; top: 0; z-index: 20;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(180deg, rgba(3,5,13,.92), rgba(3,5,13,.55));
+      border-bottom: 1px solid rgba(124,170,255,.12);
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: center;
+      padding: 18px 0;
+    }
+
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-mark {
+      width: 44px; height: 44px; border-radius: 15px;
+      background: linear-gradient(145deg, rgba(63,140,255,1), rgba(7, 17, 44, .96));
+      box-shadow: 0 0 26px rgba(63,140,255,.24), inset 0 1px 0 rgba(255,255,255,.2);
+      position: relative;
+      transform: perspective(600px) rotateX(18deg) rotateY(-18deg);
+      flex: 0 0 auto;
+    }
+    .brand-mark::after {
+      content: ""; position: absolute; inset: 9px; border-radius: 11px;
+      border: 1px solid rgba(255,255,255,.22);
+    }
+
+    .brand-title { font-weight: 900; letter-spacing: .5px; }
+    .brand-sub { color: var(--muted); font-size: .84rem; margin-top: 2px; }
+
+    .links { display: flex; gap: 10px; flex-wrap: wrap; }
+    .links a {
+      color: var(--muted); text-decoration: none; font-size: .93rem; font-weight: 600;
+      padding: 10px 14px; border-radius: 999px; border: 1px solid transparent;
+      transition: .25s ease;
+    }
+    .links a:hover {
+      color: var(--text); background: rgba(63,140,255,.08); border-color: rgba(63,140,255,.15);
+      transform: translateY(-1px);
+    }
+
+    .hero { padding: 86px 0 28px; }
+    .hero-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 24px; align-items: stretch; }
+    .panel, .card, .mini, .hero-copy {
+      background: linear-gradient(180deg, rgba(15, 25, 51, .88), rgba(7, 12, 26, .94));
+      border: 1px solid rgba(124,170,255,.14);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius2);
+    }
+
+    .hero-copy { padding: 34px; position: relative; overflow: hidden; }
+    .hero-copy::before {
+      content: ""; position: absolute; inset: 0;
+      background: radial-gradient(circle at top right, rgba(63,140,255,.18), transparent 28%);
+      pointer-events: none;
+    }
+
+    .kicker {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 10px 14px; border-radius: 999px;
+      background: rgba(63,140,255,.08); border: 1px solid rgba(63,140,255,.16);
+      color: #dce8ff; letter-spacing: .18em; text-transform: uppercase; font-size: .77rem; font-weight: 800;
+    }
+
+    h1 {
+      margin: 18px 0 14px; font-size: clamp(2.7rem, 5vw, 5.2rem); line-height: .98; letter-spacing: -.05em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #fff, #9abfff 38%, #59e2ff 82%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+
+    .hero p {
+      color: var(--muted); line-height: 1.85; font-size: 1.03rem; max-width: 72ch;
+      margin: 0 0 16px;
+    }
+
+    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
+      padding: 14px 20px; border-radius: 999px; font-weight: 800; transition: .25s ease;
+      border: 1px solid transparent;
+    }
+    .btn.primary { background: linear-gradient(135deg, #3f8cff, #7ab8ff); color: #04101f; box-shadow: 0 16px 40px rgba(63,140,255,.26); }
+    .btn.secondary { color: var(--text); background: rgba(255,255,255,.04); border-color: rgba(124,170,255,.16); }
+    .btn:hover { transform: translateY(-2px) scale(1.01); }
+
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 24px; }
+    .stat {
+      padding: 18px; border-radius: 22px; background: rgba(255,255,255,.03);
+      border: 1px solid rgba(124,170,255,.12); transform: perspective(800px) rotateX(8deg);
+    }
+    .stat strong { display: block; font-size: 1.42rem; margin-bottom: 6px; }
+    .stat span { color: var(--muted); line-height: 1.55; font-size: .95rem; }
+
+    .hero-side { padding: 26px; transform-style: preserve-3d; transform: perspective(1000px) rotateY(-7deg) rotateX(2deg); position: relative; overflow: hidden; }
+    .hero-side::after {
+      content: ""; position: absolute; inset: auto -70px -90px auto; width: 230px; height: 230px; border-radius: 50%;
+      background: rgba(89,226,255,.11); filter: blur(10px);
+    }
+
+    .side-head { display: flex; justify-content: space-between; gap: 10px; align-items: center; margin-bottom: 16px; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px;
+      background: rgba(63,140,255,.08); border: 1px solid rgba(63,140,255,.16); color: #dce8ff; font-size: .85rem;
+      white-space: nowrap;
+    }
+    .stack { display: grid; gap: 12px; }
+    .stack-item {
+      display: flex; gap: 12px; align-items: flex-start; padding: 14px 15px; border-radius: 18px;
+      background: rgba(255,255,255,.03); border: 1px solid rgba(124,170,255,.10); color: var(--muted);
+      line-height: 1.6;
+    }
+    .dot { width: 10px; height: 10px; margin-top: 6px; border-radius: 50%; background: linear-gradient(135deg, #3f8cff, #59e2ff); box-shadow: 0 0 20px rgba(89,226,255,.35); flex: 0 0 auto; }
+    .stack-item b { color: var(--text); }
+
+    section { padding: 18px 0 32px; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 18px; margin-bottom: 18px; }
+    .section-head h2 { margin: 0; font-size: clamp(1.55rem, 2.8vw, 2.55rem); letter-spacing: -.04em; }
+    .section-head p { margin: 0; color: var(--muted); line-height: 1.7; max-width: 72ch; }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+
+    .card { padding: 24px; transition: .25s ease; transform-style: preserve-3d; }
+    .card:hover { transform: translateY(-4px) perspective(1000px) rotateX(2deg); box-shadow: 0 28px 82px rgba(0,0,0,.56), 0 0 0 1px rgba(63,140,255,.1) inset; }
+    .card h3 { margin: 0 0 12px; font-size: 1.18rem; letter-spacing: -.02em; }
+    .card p, .card li { color: var(--muted); line-height: 1.78; }
+    .card ul { margin: 12px 0 0; padding-left: 18px; }
+    .card li { margin: 8px 0; }
+
+    .icon {
+      width: 40px; height: 40px; border-radius: 14px; display: inline-flex; align-items: center; justify-content: center;
+      background: rgba(63,140,255,.10); border: 1px solid rgba(124,170,255,.14); margin-bottom: 12px; font-size: 1.05rem;
+    }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+    .tag {
+      padding: 8px 12px; border-radius: 999px; font-size: .86rem;
+      background: rgba(63,140,255,.08); border: 1px solid rgba(124,170,255,.14); color: #d9e7ff;
+    }
+
+    .note {
+      padding: 24px; border-radius: var(--radius2); background: linear-gradient(135deg, rgba(63,140,255,.14), rgba(7,12,26,.95));
+      border: 1px solid rgba(124,170,255,.16); box-shadow: var(--shadow); position: relative; overflow: hidden;
+    }
+    .note::after {
+      content: ""; position: absolute; inset: auto -70px -90px auto; width: 240px; height: 240px; border-radius: 50%;
+      background: rgba(89,226,255,.10); filter: blur(12px);
+    }
+
+    .flow {
+      display: grid; gap: 14px;
+    }
+    .flow-item {
+      display: grid; grid-template-columns: 94px 1fr; gap: 16px; align-items: start; padding: 16px;
+      border-radius: 18px; background: rgba(255,255,255,.03); border: 1px solid rgba(124,170,255,.10);
+    }
+    .flow-item .step { font-weight: 900; color: #dce8ff; font-size: .92rem; }
+    .flow-item .desc { color: var(--muted); line-height: 1.72; }
+
+    .matrix { overflow: hidden; }
+    .matrix-grid {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 14px;
+    }
+    .matrix-cell {
+      border-radius: 18px; padding: 16px; background: rgba(255,255,255,.03); border: 1px solid rgba(124,170,255,.10);
+      min-height: 140px;
+    }
+    .matrix-cell h4 { margin: 0 0 10px; font-size: 1rem; }
+    .matrix-cell p { margin: 0; color: var(--muted); line-height: 1.68; font-size: .95rem; }
+
+    .two-col-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .bullet-box {
+      padding: 16px; border-radius: 18px; background: rgba(255,255,255,.03); border: 1px solid rgba(124,170,255,.10);
+    }
+    .bullet-box strong { display: block; margin-bottom: 8px; }
+    .bullet-box span { color: var(--muted); line-height: 1.65; }
+
+    .footer {
+      padding: 34px 0 54px; text-align: center; color: var(--muted);
+    }
+
+    .fade { animation: reveal .9s ease both; }
+    .d1 { animation-delay: .08s; }
+    .d2 { animation-delay: .18s; }
+    .d3 { animation-delay: .28s; }
+    .d4 { animation-delay: .38s; }
+
+    .divider {
+      height: 1px; background: linear-gradient(90deg, transparent, rgba(124,170,255,.20), transparent); margin: 28px 0;
+    }
+
+    @media (max-width: 1080px) {
+      .hero-grid, .grid-4, .matrix-grid, .grid-3, .grid-2 { grid-template-columns: 1fr; }
+      .nav { flex-direction: column; align-items: flex-start; }
+      .hero { padding-top: 42px; }
+      .hero-side { transform: none; }
+    }
+
+    @media (max-width: 640px) {
+      .container { width: min(var(--max), calc(100% - 22px)); }
+      .hero-copy, .hero-side, .card, .note { padding: 20px; border-radius: 22px; }
+      .stats { grid-template-columns: 1fr; }
+      .flow-item { grid-template-columns: 1fr; }
+      .two-col-list { grid-template-columns: 1fr; }
+      h1 { font-size: clamp(2.3rem, 11vw, 4rem); }
+      .links { gap: 8px; }
+      .links a { padding: 8px 11px; font-size: .87rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-bg"></div>
+  <div class="orb a"></div>
+  <div class="orb b"></div>
+  <div class="orb c"></div>
+
+  <div class="wrap">
+    <header>
+      <div class="container nav">
+        <div class="brand">
+          <div class="brand-mark"></div>
+          <div>
+            <div class="brand-title">MUN DOCUMENTATION VAULT</div>
+            <div class="brand-sub">Resolutions • Crisis Notes • Directives • Bills • Amendments</div>
+          </div>
+        </div>
+        <nav class="links">
+          <a href="#overview">Overview</a>
+          <a href="#resolution">Resolutions</a>
+          <a href="#crisis">Crisis Docs</a>
+          <a href="#paperwork">Paperwork Flow</a>
+          <a href="#parliament">Bill Making</a>
+          <a href="#rules">Rules</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <div class="hero-grid">
+          <div class="hero-copy fade">
+            <div class="kicker">Advanced MUN Documentation Guide</div>
+            <h1><span class="gradient-text">Build every committee document</span> with structure, purpose, and legal-style precision.</h1>
+            <p>
+              This website is a complete documentation hub for Model United Nations. It explains how to write and use working papers, draft resolutions, amendments, crisis notes, directives, statements, communiqués, and parliamentary bills with the same high-standard structure delegates are expected to understand in serious committees.
+            </p>
+            <p>
+              The design is built for both presentation and study: a premium blue-and-black visual system with layered depth, 3D-style cards, animated glow, and concise but detailed guidance for every major document type.
+            </p>
+            <div class="cta-row">
+              <a class="btn primary" href="#resolution">Start with Resolutions</a>
+              <a class="btn secondary" href="#parliament">Jump to Bill Making</a>
+            </div>
+            <div class="stats">
+              <div class="stat">
+                <strong>7+ Document Types</strong>
+                <span>Position papers, working papers, draft resolutions, crisis notes, directives, bills, and amendments.</span>
+              </div>
+              <div class="stat">
+                <strong>Rule-Based</strong>
+                <span>Built around HMUN-style resolution drafting and Pakistan parliamentary drafting rules.</span>
+              </div>
+              <div class="stat">
+                <strong>Committee Ready</strong>
+                <span>Use it to understand what to write, why to write it, and how it functions in debate.</span>
+              </div>
+            </div>
+          </div>
+
+          <aside class="hero-side fade d1">
+            <div class="side-head">
+              <div class="chip">⟡ Document Logic</div>
+              <div class="chip">Committee Output</div>
+            </div>
+            <div class="stack">
+              <div class="stack-item"><span class="dot"></span><div><b>Every document has a job.</b> Some frame the issue, some negotiate solutions, and some convert ideas into formal action.</div></div>
+              <div class="stack-item"><span class="dot"></span><div><b>Structure creates credibility.</b> A clear heading, correct clauses, and clean sequencing make a paper usable by the dais.</div></div>
+              <div class="stack-item"><span class="dot"></span><div><b>Solutions must be workable.</b> Good writing does not just sound strong; it shows implementation, responsibility, and impact.</div></div>
+              <div class="stack-item"><span class="dot"></span><div><b>Paperwork is strategic.</b> The best delegates know which document moves the committee forward at each stage.</div></div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="overview">
+        <div class="section-head">
+          <div>
+            <h2>1. What MUN Documentation Actually Means</h2>
+            <p>Documentation is the written form of committee power. It turns speech into record, ideas into procedure, and negotiation into action.</p>
+          </div>
+        </div>
+        <div class="grid-3">
+          <div class="card fade d1">
+            <div class="icon">①</div>
+            <h3>Framing documents</h3>
+            <p>These define your position and show the committee what your delegation believes, supports, and rejects.</p>
+          </div>
+          <div class="card fade d2">
+            <div class="icon">②</div>
+            <h3>Negotiation documents</h3>
+            <p>These help blocs merge ideas into shared proposals, especially through working papers, draft clauses, and amendments.</p>
+          </div>
+          <div class="card fade d3">
+            <div class="icon">③</div>
+            <h3>Action documents</h3>
+            <p>These are the papers that actually move the room: resolutions, directives, communiqués, and bills.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="resolution">
+        <div class="section-head">
+          <div>
+            <h2>2. Resolutions, Working Papers, and Drafts</h2>
+            <p>HMUN-style guidance treats the resolution as the main vehicle of committee action. Working papers help build it, amendments refine it, and voting decides it.</p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3>Working paper</h3>
+            <p>
+              A working paper is an early, flexible document used during negotiation. It is not final law; it is the committee’s first organized attempt to collect solutions, divide labor, and test whether a bloc has real agreement.
+            </p>
+            <ul>
+              <li><strong>Why write it:</strong> to move from scattered ideas to a shared draft.</li>
+              <li><strong>What to include:</strong> clear goals, broad solution areas, and preliminary steps.</li>
+              <li><strong>What not to do:</strong> write full legal language too early or make it too vague to use.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Draft resolution</h3>
+            <p>
+              A draft resolution is the polished committee product that is ready for formal introduction. According to HMUN guidance, the resolution process moves from working papers to revised draft resolutions, then amendments, then voting.
+            </p>
+            <ul>
+              <li><strong>Why write it:</strong> to present a formal solution for committee action.</li>
+              <li><strong>What to include:</strong> realistic clauses, strong verbs, and implementation detail.</li>
+              <li><strong>What not to do:</strong> recycle the entire background guide or use empty phrases with no mechanism.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="matrix card" style="margin-top:18px;">
+          <h3 style="margin-top:0">Anatomy of a Resolution</h3>
+          <div class="matrix-grid">
+            <div class="matrix-cell">
+              <h4>Heading</h4>
+              <p>Committee name, topic, sponsors, and signatories. In HMUN-style formatting, the title is centered and the committee/topic lines are placed beneath it.</p>
+            </div>
+            <div class="matrix-cell">
+              <h4>Preambulatory clauses</h4>
+              <p>Explain the problem, recall earlier actions, and justify why action is needed. Each clause sets context, not commands.</p>
+            </div>
+            <div class="matrix-cell">
+              <h4>Operative clauses</h4>
+              <p>Numbered action points that state what the committee recommends, requests, encourages, establishes, or authorizes.</p>
+            </div>
+            <div class="matrix-cell">
+              <h4>Amendments</h4>
+              <p>Changes made after a draft resolution reaches the floor. Friendly amendments are accepted by all sponsors; unfriendly amendments are debated.</p>
+            </div>
+            <div class="matrix-cell">
+              <h4>Voting</h4>
+              <p>The final stage where the committee decides whether the draft becomes the body’s action statement.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top:18px;">
+          <div class="card">
+            <h3>How to write a good solution clause</h3>
+            <p>
+              A strong clause should answer five questions: what action is being taken, who takes it, how it is implemented, what resources or cooperation are needed, and what result is expected.
+            </p>
+            <div class="tags">
+              <span class="tag">clear actor</span>
+              <span class="tag">direct action</span>
+              <span class="tag">implementation</span>
+              <span class="tag">accountability</span>
+              <span class="tag">impact</span>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Why resolutions matter</h3>
+            <p>
+              Resolutions are the committee’s public conclusion. They prove that a bloc has moved beyond talking and produced a shared, structured outcome that can guide policy, reform, or future coordination.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="crisis">
+        <div class="section-head">
+          <div>
+            <h2>3. Crisis Committee Documents</h2>
+            <p>HMUN crisis guidance distinguishes between directives and crisis notes. Directives are collective action; crisis notes are private, character-driven moves that advance a hidden agenda.</p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3>Directives</h3>
+            <p>
+              Directives are short action documents used to respond to live developments in crisis committees. They are usually faster and less formal than full resolutions, and HMUN notes that their structure can be more flexible because they are written under time pressure.
+            </p>
+            <ul>
+              <li><strong>Use them for:</strong> emergency response, intelligence, coordination, and operational orders.</li>
+              <li><strong>Write them like:</strong> command statements with clear steps and outcomes.</li>
+              <li><strong>Best style:</strong> direct, plausible, specific, and within committee power.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Crisis notes</h3>
+            <p>
+              Crisis notes are private letters to the crisis staff that describe a delegate’s secret agenda and request action. HMUN’s crisis note guidance presents them as letters with a clear target, a numbered list of requests or actions, justifications, and a concluding goal statement.
+            </p>
+            <ul>
+              <li><strong>Use them for:</strong> hidden maneuvers, character arcs, covert requests, and individual schemes.</li>
+              <li><strong>Write them like:</strong> persuasive operational letters, not random storytelling.</li>
+              <li><strong>Best style:</strong> concise, persuasive, and grounded in your character’s ability.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="note" style="margin-top:18px;">
+          <h3 style="margin-top:0">Crisis writing rule of thumb</h3>
+          <p style="margin-bottom:0; max-width: 90ch;">
+            If the committee is solving a public problem, write a directive. If your character is secretly pushing a private objective, write a crisis note. If both are happening at once, the best delegates use both strategically without making either one vague.
+          </p>
+        </div>
+      </section>
+
+      <section id="paperwork">
+        <div class="section-head">
+          <div>
+            <h2>4. When to Write What</h2>
+            <p>This section helps delegates choose the right document at the right time so the workflow feels intentional instead of messy.</p>
+          </div>
+        </div>
+        <div class="flow">
+          <div class="flow-item">
+            <div class="step">BEFORE DEBATE</div>
+            <div class="desc"><strong>Position paper.</strong> Use it to define your state or character’s interests, policies, and likely stance on the topic. HMUN uses it as the main pre-conference writing exercise.</div>
+          </div>
+          <div class="flow-item">
+            <div class="step">DURING NEGOTIATION</div>
+            <div class="desc"><strong>Working paper.</strong> Use it to collect shared ideas, draft the early structure of solutions, and keep bloc members aligned.</div>
+          </div>
+          <div class="flow-item">
+            <div class="step">WHEN THE ROOM IS READY</div>
+            <div class="desc"><strong>Draft resolution.</strong> Use it when solutions are organized enough to be formally introduced, revised, and voted upon.</div>
+          </div>
+          <div class="flow-item">
+            <div class="step">IN CRISIS</div>
+            <div class="desc"><strong>Directive + crisis note.</strong> Use directives for committee-wide action and crisis notes for secret or character-specific moves.</div>
+          </div>
+          <div class="flow-item">
+            <div class="step">IN PARLIAMENTARY WORK</div>
+            <div class="desc"><strong>Bill or resolution.</strong> Use a bill when creating legal or legislative language; use a resolution when expressing opinion, recommendation, or request in a parliamentary-style committee.</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="parliament">
+        <div class="section-head">
+          <div>
+            <h2>5. PNA / Parliamentary Bill Making</h2>
+            <p>For parliamentary-style committees, a bill is the cleanest way to turn policy into enforceable language. National Assembly rules in Pakistan require notice, a Statement of Objects and Reasons, and clear procedural handling of introduction, publication, committee referral, debate, and passage.</p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3>How a bill is usually framed</h3>
+            <ul>
+              <li><strong>Title:</strong> short, official, and specific.</li>
+              <li><strong>Preamble or statement:</strong> why the bill is being introduced.</li>
+              <li><strong>Definitions:</strong> only when terms need legal precision.</li>
+              <li><strong>Substantive clauses:</strong> rights, duties, institutions, penalties, timelines, or procedures.</li>
+              <li><strong>Repeal / amendment / savings clauses:</strong> only when the bill changes an existing law.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Why each part exists</h3>
+            <p>
+              A bill is not just a policy wish list. Each part exists to remove confusion: the title identifies the law, the objects explain intent, the clauses create enforceable outcomes, and the procedural details make the draft fit assembly standards.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid-4" style="margin-top:18px;">
+          <div class="card">
+            <h3>1. Notice</h3>
+            <p>A member gives notice to introduce a bill. In Pakistan’s National Assembly rules, a private member bill requires advance notice and copies with a Statement of Objects and Reasons.</p>
+          </div>
+          <div class="card">
+            <h3>2. Introduction</h3>
+            <p>The bill is formally introduced when called. Government bills and private members’ bills follow distinct procedural steps.</p>
+          </div>
+          <div class="card">
+            <h3>3. Committee stage</h3>
+            <p>Once introduced, a bill can be referred to a standing committee for scrutiny, revisions, and detailed review.</p>
+          </div>
+          <div class="card">
+            <h3>4. Passage</h3>
+            <p>General debate supports or rejects the bill, then the assembly votes. After passage, transmission and assent procedures follow in the formal system.</p>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top:18px;">
+          <div class="card">
+            <h3>How to write a strong Statement of Objects and Reasons</h3>
+            <ul>
+              <li>State the problem in one clear sentence.</li>
+              <li>Explain why existing measures are inadequate.</li>
+              <li>Show what the bill changes and who benefits.</li>
+              <li>Keep the justification precise, not dramatic.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>What makes a bill credible</h3>
+            <ul>
+              <li>It stays within the body’s authority.</li>
+              <li>It has a realistic implementation path.</li>
+              <li>It avoids contradictory clauses.</li>
+              <li>It uses legal-style language instead of debate slogans.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="rules">
+        <div class="section-head">
+          <div>
+            <h2>6. Rule Logic Behind the Documents</h2>
+            <p>These are the practical rule ideas that shape how serious committees handle documents and why the best writing is usually procedural, not decorative.</p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3>HMUN-style logic</h3>
+            <p>
+              HMUN’s delegate-preparation guide emphasizes understanding the rules of procedure, reading background guides carefully, and using document writing as a core part of conference readiness. It also treats working papers, draft resolutions, amendments, and voting as distinct stages of resolution writing.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Pakistan parliamentary logic</h3>
+            <p>
+              Pakistan’s National Assembly rules and legislative drafting resources show a similar philosophy: write clearly, define the legal purpose, and follow procedure so the text can survive scrutiny rather than collapse on technical grounds.
+            </p>
+          </div>
+        </div>
+
+        <div class="two-col-list" style="margin-top:18px;">
+          <div class="bullet-box">
+            <strong>Use these words in resolutions</strong>
+            <span>commend, urge, request, recommend, establish, encourage, authorize, support, call upon.</span>
+          </div>
+          <div class="bullet-box">
+            <strong>Use these words in bills</strong>
+            <span>shall, may, must, define, provide, establish, require, repeal, amend, prescribe.</span>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="note">
+          <h2 style="margin-top:0">7. Closing Formula</h2>
+          <p style="margin-bottom:0; max-width: 92ch;">
+            A delegate who masters documentation can control the room without shouting. The structure is simple: know the problem, choose the right document, write with a clear purpose, make the solution workable, and keep every clause tied to a real committee outcome. That is how resolutions, crisis notes, directives, and bills become more than paper—they become the architecture of the debate.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        Built as a premium MUN documentation website with a dark blue-and-black theme, layered depth, and committee-ready writing guidance.
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
